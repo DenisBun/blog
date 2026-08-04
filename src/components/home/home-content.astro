@@ -1,0 +1,41 @@
+---
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+import AskAi from '@components/ai/ask-ai.astro';
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="home-grid" aria-labelledby="home-title">
+  <div class="window hero-window">
+    <div class="window-titlebar">
+      <span class="window-title"><span aria-hidden="true">▣</span> {t('pages.home.window-title')}</span>
+      <span class="window-controls" aria-hidden="true"><span>_</span><span>□</span><span>×</span></span>
+    </div>
+    <div class="window-content">
+      <p class="eyebrow">C:\DENIS\HOME</p>
+      <h1 id="home-title">{t('pages.home.hero-title')}</h1>
+      <p class="lead">{t('pages.home.hero-sub-slogan')}</p>
+      <hr class="win-rule" />
+      <p>{t('pages.home.intro')}</p>
+      <p>{t('pages.home.body')}</p>
+      <div class="button-row">
+        <a class="win-button primary-action" href={getLocaleUrl('blog', locale)}>{t('pages.home.blog-cta')}</a>
+        <a class="win-button" href={getLocaleUrl('about', locale)}>{t('pages.home.about-cta')}</a>
+      </div>
+    </div>
+    <div class="status-bar"><span>Ready</span><span>{locale.toUpperCase()}</span></div>
+  </div>
+
+  <aside class="window shortcut-window" aria-label="Desktop shortcuts">
+    <div class="window-titlebar"><span class="window-title">shortcuts</span></div>
+    <div class="shortcut-list">
+      <a href={getLocaleUrl('blog', locale)}><span class="shortcut-icon" aria-hidden="true">📝</span><span>{t('labels.blog')}</span></a>
+      <a href={getLocaleUrl('about', locale)}><span class="shortcut-icon" aria-hidden="true">💾</span><span>{t('labels.about')}</span></a>
+      <a href="#ask-ai"><span class="shortcut-icon" aria-hidden="true">✨</span><span>{t('ai.shortcut')}</span></a>
+      <a href={getLocaleUrl('rss.xml', locale)}><span class="shortcut-icon" aria-hidden="true">📡</span><span>{t('labels.rss')}</span></a>
+    </div>
+  </aside>
+</section>
+
+<AskAi {locale} />

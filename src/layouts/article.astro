@@ -1,0 +1,51 @@
+---
+import '@styles/global.css';
+import '@styles/blog.css';
+import Footer from '@components/layout/footer.astro';
+import Header from '@components/layout/header.astro';
+import LanguageSelect from '@components/layout/language-select.astro';
+import HeadBase from '@components/head/base.astro';
+import HeadHrefLang from '@components/head/hreflang.astro';
+import HeadOgX from '@components/head/ogx.astro';
+import ArticleStructuredData from '@components/structured/article.astro';
+import { getEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+import { themeConfig } from '~/theme.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  robots?: string;
+  isError?: boolean;
+  imgUrl?: string;
+  locale?: string;
+  noi18n?: boolean;
+}
+
+const locale = Astro.props.locale || themeConfig.i18n.defaultLocale;
+const t = useTranslations(locale);
+const title = Astro.props.title || t('meta.title');
+const description = Astro.props.description || t('meta.description');
+const { imgUrl, isError, noi18n, robots } = Astro.props;
+const articleEntry = (await getEntry('articles', `${locale}/${String(Astro.params.article)}`)) as CollectionEntry<'articles'>;
+const imageUrl = imgUrl ? new URL(imgUrl, Astro.site).href : undefined;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <HeadBase {title} {description} {locale} {robots} {isError} externalCanonical={articleEntry.data.externalCanonical} />
+    <HeadHrefLang {locale} {noi18n} collection="articles" contentId={articleEntry.id} />
+    <HeadOgX {locale} {title} {description} type="article" ogTitle={themeConfig.ogTitle || t('meta.og-site-name')} ogImage={imageUrl} xImage={imageUrl} />
+    <ArticleStructuredData {title} {description} {articleEntry} {locale} />
+  </head>
+  <body>
+    <div class="desktop">
+      <Header {locale} button={{ text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) }} />
+      <main id="main-content"><div class="site-shell"><slot /></div></main>
+      <div class="site-shell"><Footer {locale} /></div>
+      <LanguageSelect {noi18n} collection="articles" contentId={articleEntry.id} {locale} />
+    </div>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+---
+import type { CollectionKey } from 'astro:content';
+import { checkTranslatedPath, getCleanLocaleUrl, getLocaleUrlWithContent, useTranslations } from '@utils/i18n';
+import { themeConfig } from '~/theme.config';
+
+interface Props {
+  locale: string;
+  noi18n?: boolean;
+  collection?: CollectionKey;
+  contentId?: string;
+}
+
+const { locale, noi18n, collection, contentId } = Astro.props as Props;
+const t = useTranslations(locale);
+const translated = await checkTranslatedPath(locale, noi18n, collection, contentId);
+const cleanPath = Astro.url.pathname.replace(`/${locale}/`, '/');
+const basePath = cleanPath.split('/').slice(0, -1).join('/');
+const hasTranslation = (code: string) => code === 'en' ? translated.en : code === 'ru' ? translated.ru : false;
+
+const links = await Promise.all(
+  themeConfig.i18n.locales.map(async (code) => ({
+    code,
+    enabled: hasTranslation(code),
+    href: collection && contentId
+      ? await getLocaleUrlWithContent(contentId, collection, code, false, basePath)
+      : getCleanLocaleUrl(Astro.url, locale, code),
+  })),
+);
+---
+
+<nav class="language-switcher" aria-label={t('i18n.select-language')}>
+  <span aria-hidden="true">🌐</span>
+  {
+    links.map((item) =>
+      item.enabled ? (
+        <a href={item.href} lang={item.code} hreflang={item.code} aria-current={item.code === locale ? 'page' : undefined}>
+          {item.code.toUpperCase()}
+        </a>
+      ) : (
+        <span aria-disabled="true">{item.code.toUpperCase()}</span>
+      ),
+    )
+  }
+</nav>

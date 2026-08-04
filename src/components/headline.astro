@@ -1,0 +1,14 @@
+---
+interface Props {
+  text: string;
+  class?: string;
+  icon?: string;
+}
+
+const { text, class: className = '' } = Astro.props as Props;
+---
+
+<div class:list={['window page-heading', className]}>
+  <div class="window-titlebar"><span class="window-title">{text.toLowerCase()}.dir</span></div>
+  <div class="window-content"><h1>{text}</h1></div>
+</div>

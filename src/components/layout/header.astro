@@ -1,0 +1,47 @@
+---
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+
+interface Props {
+  locale: string;
+  button?: { text: string; href: string };
+  isHome?: boolean;
+}
+
+const { locale, button, isHome } = Astro.props as Props;
+const t = useTranslations(locale);
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const items = [
+  { href: getLocaleUrl('/', locale), label: t('labels.home') },
+  { href: getLocaleUrl('about', locale), label: t('labels.about') },
+  { href: getLocaleUrl('blog', locale), label: t('labels.blog') },
+];
+---
+
+<header class="site-shell site-header" role="banner">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="window" aria-label="Site navigation">
+    <div class="window-titlebar">
+      <a href={getLocaleUrl('/', locale)} class="window-title" aria-current={isHome ? 'page' : undefined}>
+        <img src="/favicon-96x96.png" width="20" height="20" alt="" />
+        Denis Bunchenko
+      </a>
+      <span class="window-controls" aria-hidden="true"><span>_</span><span>□</span><span>×</span></span>
+    </div>
+    <nav class="window-menubar" aria-label="Primary navigation">
+      {
+        button && (
+          <a class="menu-link menu-link-back" href={button.href}>
+            ← {button.text}
+          </a>
+        )
+      }
+      {
+        items.map((item) => (
+          <a class="menu-link" href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

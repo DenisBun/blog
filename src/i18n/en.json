@@ -1,0 +1,107 @@
+{
+  "labels": {
+    "home": "Home",
+    "about": "About",
+    "blog": "Blog",
+    "language": "Language",
+    "english": "English",
+    "russian": "Русский",
+    "categories": "Categories",
+    "category": "Category",
+    "tags": "Tags",
+    "tag": "Tag",
+    "featured": "Featured",
+    "min-read": "min read",
+    "author": "Author",
+    "published": "Published",
+    "updated": "Updated",
+    "back": "Back",
+    "back-overview": "Back to overview",
+    "back-all-articles": "All articles",
+    "pagination": "Pagination",
+    "page": "Page",
+    "prev": "Previous",
+    "next": "Next",
+    "no-entries": "No entries",
+    "toc": "Contents",
+    "to-start": "Back to top",
+    "open-menu": "Open menu",
+    "close-menu": "Close menu",
+    "share-article": "Share this article",
+    "share-email-subject": "An article from Denis Bunchenko",
+    "email": "Email",
+    "continue-reading": "Continue reading",
+    "rss": "RSS feed"
+  },
+  "meta": {
+    "title": "Denis Bunchenko",
+    "description": "Personal blog of Denis Bunchenko.",
+    "og-site-name": "Denis Bunchenko",
+    "slug": "Denis Bunchenko",
+    "slogan": "Personal blog",
+    "sub-slogan": "Notes, experiments, and things worth remembering."
+  },
+  "i18n": {
+    "select-language": "Select language",
+    "current-language": "current language",
+    "noi18n": "Not translated"
+  },
+  "ai": {
+    "title": "Ask AI about Denis",
+    "description": "Copy this prompt into any AI assistant. It points the assistant to the site's maintained, machine-readable summary and asks it to separate facts from guesses.",
+    "shortcut": "Ask AI",
+    "prompt-label": "Prepared prompt",
+    "prompt": "Using https://denisbunchenko.com/llms.txt as the primary source, tell me about Denis Bunchenko and his work. Distinguish confirmed facts from inferences, cite the pages you used, and clearly say when information is missing.",
+    "copy": "Copy prompt",
+    "copied": "Prompt copied. Paste it into your preferred AI assistant.",
+    "copy-error": "Automatic copying was unavailable. The prompt is selected for manual copying.",
+    "view-context": "View AI context",
+    "provider-note": "Works with any assistant that can access public web pages"
+  },
+  "pages": {
+    "404": {
+      "title": "404 - File not found",
+      "message": "Windows cannot find this page. It may have been moved, renamed, or never saved.",
+      "window-title": "Page not found",
+      "path-label": "Requested location:",
+      "actions-label": "Error recovery options",
+      "home-cta": "Return home",
+      "blog-cta": "Open the blog",
+      "status": "Navigation error"
+    },
+    "home": {
+      "title": "Denis Bunchenko - Personal Blog",
+      "description": "The personal website and bilingual blog of Denis Bunchenko.",
+      "hero-title": "Welcome to my corner of the web",
+      "hero-sub-slogan": "Notes, experiments, and things worth remembering.",
+      "window-title": "welcome.txt",
+      "intro": "This is my personal website, dressed like the computers I grew up with.",
+      "body": "I write about work, technology, and whatever else survives the trip from a passing thought to a saved file.",
+      "blog-cta": "Open the blog",
+      "about-cta": "About Denis"
+    },
+    "about": {
+      "title": "About",
+      "description": "About Denis Bunchenko and this personal website.",
+      "window-title": "about.exe",
+      "heading": "Denis Bunchenko",
+      "body-1": "Hello. I am Denis, and this is my personal space on the web.",
+      "body-2": "This page is intentionally small for now. More details can be added when there is something useful to say."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Articles and notes by Denis Bunchenko."
+    }
+  },
+  "rss": {
+    "title": "Denis Bunchenko | RSS Feed",
+    "description": "New articles from Denis Bunchenko."
+  },
+  "tags-t": {
+    "astro": "Astro",
+    "personal": "Personal"
+  },
+  "categories-t": {
+    "notes": "Notes"
+  }
+}

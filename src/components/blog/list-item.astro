@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import FallbackImage from '@images/content/articles-fallback.jpg';
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+import { getReadingTime } from '@utils/reading-time';
+import { themeConfig } from '~/theme.config';
+
+interface Props {
+  entry: CollectionEntry<'articles'>;
+  locale: string;
+  wide?: boolean;
+  noTransition?: boolean;
+}
+
+const { entry, locale, wide } = Astro.props as Props;
+const t = useTranslations(locale);
+const slug = entry.id.split('/').at(-1);
+const imageFile = entry.data.image?.file || (!entry.data.image?.url && themeConfig.articles?.imageFallback ? FallbackImage : undefined);
+const date = entry.data.publishDate.toLocaleDateString(locale, { dateStyle: 'medium' });
+---
+
+<article class:list={['window post-card', wide && 'post-card-wide']}>
+  <div class="window-titlebar">
+    <span class="window-title">{slug}.txt</span>
+    {entry.data.featured && <span class="featured-label">★ {t('labels.featured')}</span>}
+  </div>
+  <a class="post-card-link" href={getLocaleUrl(`blog/${slug}`, locale)}>
+    <span class="post-image">
+      {imageFile ? <Image src={imageFile} alt={entry.data.image?.alt || ''} widths={[320, 640, 960]} sizes={wide ? '(min-width: 768px) 40vw, 100vw' : '(min-width: 768px) 33vw, 100vw'} /> : entry.data.image?.url ? <Image src={entry.data.image.url} alt={entry.data.image.alt || ''} inferSize /> : null}
+    </span>
+    <span class="post-card-copy">
+      <span class="post-card-title">{entry.data.title}</span>
+      <span>{entry.data.excerpt}</span>
+      <span class="status-bar"><span>{date}</span><span>{getReadingTime(entry.body)} {t('labels.min-read')}</span></span>
+    </span>
+  </a>
+</article>

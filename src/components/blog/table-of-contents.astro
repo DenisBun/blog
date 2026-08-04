@@ -1,0 +1,23 @@
+---
+import { useTranslations } from '@utils/i18n';
+
+interface Props {
+  headings: Array<{ depth: number; text: string; slug: string }>;
+  locale: string;
+  baseUrl?: string;
+}
+
+const { headings, locale, baseUrl = '' } = Astro.props as Props;
+const t = useTranslations(locale);
+---
+
+<nav class="toc-list" aria-label={t('labels.toc')}>
+  <a href={`${baseUrl}#start`}>↑ {t('labels.to-start')}</a>
+  {
+    headings.map(({ depth, text, slug }) => (
+      <a class:list={[depth > 2 && 'toc-nested']} href={`${baseUrl}#${slug}`}>
+        {text}
+      </a>
+    ))
+  }
+</nav>

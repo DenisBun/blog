@@ -1,10 +1,13 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '@layouts/default.astro';
+import AboutContent from '@components/about/about-content.astro';
+import { useTranslations } from '@utils/i18n';
+import { themeConfig } from '~/theme.config';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const locale = themeConfig.i18n.defaultLocale;
+const t = useTranslations(locale);
 ---
 
-<Layout title="About">
-	<h1>About</h1>
+<Layout {locale} title={t('pages.about.title')} description={t('pages.about.description')}>
+  <AboutContent {locale} />
 </Layout>

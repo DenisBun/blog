@@ -1,0 +1,16 @@
+---
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+import { themeConfig } from '~/theme.config';
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<footer class="window site-footer">
+  <div class="window-titlebar"><span class="window-title">status.log</span></div>
+  <div class="status-bar">
+    <span>© {new Date().getFullYear()} {themeConfig.author.name}</span>
+    <a href={getLocaleUrl('rss.xml', locale)}>{t('labels.rss')}</a>
+    <span>Astro / Netlify</span>
+  </div>
+</footer>

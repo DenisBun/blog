@@ -1,0 +1,215 @@
+@import './markdown.css';
+
+.featured-post {
+  margin-block: 18px;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.post-card {
+  height: 100%;
+}
+
+.post-card-link {
+  display: grid;
+  height: calc(100% - 28px);
+  grid-template-rows: 180px 1fr;
+  color: #000;
+  background: var(--win-face);
+  text-decoration: none;
+}
+
+.post-card-wide .post-card-link {
+  grid-template-columns: minmax(260px, 42%) 1fr;
+  grid-template-rows: 1fr;
+}
+
+.post-card-link:hover {
+  color: #000;
+}
+
+.post-card-link:focus-visible {
+  outline-offset: -6px;
+}
+
+.post-image {
+  min-height: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 2px inset var(--win-face);
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: auto;
+}
+
+.post-card-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.post-card-copy .status-bar {
+  margin-top: auto;
+}
+
+.post-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.featured-label {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.pagination {
+  margin-top: 24px;
+}
+
+.pagination-controls,
+.page-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px;
+}
+
+.article-layout {
+  display: grid;
+  gap: 18px;
+}
+
+.article-header {
+  overflow: hidden;
+}
+
+#title-image {
+  width: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border: 2px inset var(--win-face);
+}
+
+.article-heading {
+  padding: clamp(20px, 5vw, 52px);
+}
+
+.article-heading h1 {
+  max-width: 900px;
+}
+
+.article-meta > * {
+  flex: 1 1 180px;
+}
+
+.article-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  align-items: start;
+  gap: 18px;
+}
+
+.article-body {
+  min-width: 0;
+}
+
+.article-body > .window-content {
+  background: #fff;
+  border: 2px inset var(--win-face);
+}
+
+.article-taxonomy {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid var(--win-shadow);
+}
+
+.toc-desktop {
+  position: sticky;
+  top: 12px;
+}
+
+.toc-mobile {
+  display: none;
+}
+
+.toc-mobile summary {
+  list-style: none;
+}
+
+.toc-list {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.toc-list a {
+  overflow: hidden;
+  color: #000;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-list a:hover {
+  color: #fff;
+  background: var(--win-title);
+}
+
+.toc-nested {
+  padding-left: 14px;
+}
+
+.share-window .window-content {
+  padding: 18px;
+}
+
+.share-window h2 {
+  margin-bottom: 14px;
+  font-size: 1.2rem;
+}
+
+.social-share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.related-posts {
+  margin-top: 14px;
+}
+
+@media (max-width: 767px) {
+  .post-grid,
+  .article-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .post-card-wide .post-card-link,
+  .post-card-link {
+    grid-template-columns: 1fr;
+    grid-template-rows: 170px 1fr;
+  }
+
+  .toc-desktop {
+    display: none;
+  }
+
+  .toc-mobile {
+    display: block;
+  }
+}

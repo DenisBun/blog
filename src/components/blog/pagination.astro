@@ -1,0 +1,53 @@
+---
+import type { Page } from 'astro';
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+
+interface Props {
+  page: Page;
+  baseUrl?: string;
+  locale: string;
+  class?: string;
+}
+
+const { page, baseUrl = 'blog', locale } = Astro.props as Props;
+const t = useTranslations(locale);
+const pageCount = Math.ceil(page.total / page.size);
+const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
+---
+
+<nav class="pagination window" aria-label={t('labels.pagination')}>
+  <div class="window-titlebar"><span class="window-title">page.exe</span></div>
+  <div class="pagination-controls">
+    {
+      page.url.prev ? (
+        <a class="win-button" href={page.url.prev}>
+          ← {t('labels.prev')}
+        </a>
+      ) : (
+        <span class="win-button disabled" aria-disabled="true">
+          ← {t('labels.prev')}
+        </span>
+      )
+    }
+    <span class="page-numbers">
+      {
+        pages.map((pageNumber) => (
+          <a class="win-button" aria-current={pageNumber === page.currentPage ? 'page' : undefined} href={pageNumber === 1 ? getLocaleUrl(baseUrl, locale) : getLocaleUrl(`${baseUrl}/${pageNumber}`, locale)}>
+            {pageNumber}
+          </a>
+        ))
+      }
+    </span>
+    {
+      page.url.next ? (
+        <a class="win-button" href={page.url.next}>
+          {t('labels.next')} →
+        </a>
+      ) : (
+        <span class="win-button disabled" aria-disabled="true">
+          {t('labels.next')} →
+        </span>
+      )
+    }
+  </div>
+</nav>

@@ -1,0 +1,59 @@
+---
+import { themeConfig } from '~/theme.config';
+import { useTranslations } from '@utils/i18n';
+import type { SocialButtons } from '~types/theme-config';
+
+interface Props {
+  url: string;
+  emailSubject?: string;
+  title?: string;
+  xHandle?: string;
+  buttons?: SocialButtons;
+  buttonsSmallScreen?: SocialButtons;
+  locale: string;
+}
+
+const { url, emailSubject, title = '', locale } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const xHandle = Astro.props.xHandle || themeConfig.articles?.social?.xHandle;
+const t = useTranslations(locale);
+const active = Astro.props.buttons || themeConfig.articles?.social?.buttons || {};
+const links = [
+  { key: 'email', label: t('labels.email'), href: `mailto:?subject=${encodeURIComponent(emailSubject || title)}&body=${encodedUrl}` },
+  { key: 'facebook', label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
+  { key: 'hackernews', label: 'Hacker News', href: `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${encodedTitle}` },
+  { key: 'linkedin', label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
+  { key: 'pinterest', label: 'Pinterest', href: `https://pinterest.com/pin/create/button/?url=${encodedUrl}` },
+  { key: 'reddit', label: 'Reddit', href: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}` },
+  { key: 'telegram', label: 'Telegram', href: `https://t.me/share/url?url=${encodedUrl}` },
+  { key: 'x', label: 'X', href: `https://x.com/intent/post?url=${encodedUrl}${xHandle ? `&via=${xHandle}` : ''}` },
+  { key: 'whatsapp', label: 'WhatsApp', href: `https://api.whatsapp.com/send?text=${encodedUrl}` },
+] as const;
+
+function isEnabled(key: (typeof links)[number]['key']) {
+  switch (key) {
+    case 'email': return active.email;
+    case 'facebook': return active.facebook;
+    case 'hackernews': return active.hackernews;
+    case 'linkedin': return active.linkedin;
+    case 'pinterest': return active.pinterest;
+    case 'reddit': return active.reddit;
+    case 'telegram': return active.telegram;
+    case 'x': return active.x;
+    case 'whatsapp': return active.whatsapp;
+  }
+}
+---
+
+<div class="social-share-buttons">
+  {
+    links
+      .filter(({ key }) => isEnabled(key))
+      .map(({ label, href }) => (
+        <a class="win-button" href={href} target="_blank" rel="noreferrer noopener" aria-label={`${t('labels.share-article')}: ${label}`}>
+          {label}
+        </a>
+      ))
+  }
+</div>

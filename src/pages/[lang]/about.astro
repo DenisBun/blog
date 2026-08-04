@@ -1,0 +1,19 @@
+---
+import Layout from '@layouts/default.astro';
+import AboutContent from '@components/about/about-content.astro';
+import { useTranslations } from '@utils/i18n';
+import { themeConfig } from '~/theme.config';
+
+export function getStaticPaths() {
+  return themeConfig.i18n.locales
+    .filter((lang) => lang !== themeConfig.i18n.defaultLocale)
+    .map((lang) => ({ params: { lang } }));
+}
+
+const locale = Astro.params.lang;
+const t = useTranslations(locale);
+---
+
+<Layout {locale} title={t('pages.about.title')} description={t('pages.about.description')}>
+  <AboutContent {locale} />
+</Layout>

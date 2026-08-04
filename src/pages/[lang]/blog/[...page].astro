@@ -1,0 +1,41 @@
+---
+import Headline from '@components/headline.astro';
+import List from '@components/blog/list.astro';
+import Pagination from '@components/blog/pagination.astro';
+import Layout from '@layouts/default.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import type { PaginateFunction } from 'astro';
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+import { sortArticleList } from '@utils/blog';
+import { themeConfig } from '~/theme.config';
+
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+  const entries = sortArticleList(
+    (await getCollection('articles', ({ id, data }) => !data.draft && !id.startsWith(`${themeConfig.i18n.defaultLocale}/`))) as CollectionEntry<'articles'>[],
+  );
+  return themeConfig.i18n.locales
+    .filter((lang) => lang !== themeConfig.i18n.defaultLocale)
+    .flatMap((lang) =>
+      paginate(entries.filter(({ id }) => id.startsWith(`${lang}/`)), {
+        params: { lang },
+        pageSize: themeConfig.articles?.entriesPerPage || 10,
+      }),
+    );
+}
+
+const { page } = Astro.props;
+const locale = Astro.params.lang;
+const t = useTranslations(locale);
+const numberOfPages = Math.ceil(page.total / page.size);
+---
+
+<Layout {locale} title={t('pages.blog.title')} description={t('pages.blog.description')}>
+  <Headline text={t('pages.blog.title')} />
+  <nav class="blog-tools" aria-label={t('pages.blog.title')}>
+    <a class="win-button" href={getLocaleUrl('blog/categories', locale)}>▤ {t('labels.categories')}</a>
+    <a class="win-button" href={getLocaleUrl('blog/tags', locale)}>⌑ {t('labels.tags')}</a>
+  </nav>
+  <List entries={page.data} {locale} firstBig={page.currentPage === 1} />
+  {numberOfPages > 1 && <Pagination {page} {locale} />}
+</Layout>

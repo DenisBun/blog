@@ -1,0 +1,25 @@
+---
+import { useTranslations } from '@utils/i18n';
+import AskAi from '@components/ai/ask-ai.astro';
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<article class="window prose-window">
+  <div class="window-titlebar">
+    <span class="window-title"><span aria-hidden="true">ℹ</span> {t('pages.about.window-title')}</span>
+    <span class="window-controls" aria-hidden="true"><span>_</span><span>□</span><span>×</span></span>
+  </div>
+  <div class="window-content about-content">
+    <div class="about-icon" aria-hidden="true">DB</div>
+    <div>
+      <h1>{t('pages.about.heading')}</h1>
+      <p class="lead">{t('pages.about.body-1')}</p>
+      <p>{t('pages.about.body-2')}</p>
+    </div>
+  </div>
+  <div class="status-bar"><span>denisbunchenko.com</span><span>{locale.toUpperCase()}</span></div>
+</article>
+
+<AskAi {locale} />

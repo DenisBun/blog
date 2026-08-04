@@ -1,0 +1,30 @@
+---
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+
+interface Props {
+  entries?: (string | undefined)[];
+  locale: string;
+  type: 'tags' | 'categories';
+  small?: boolean;
+}
+
+const { entries, locale, type, small } = Astro.props as Props;
+const t = useTranslations(locale);
+---
+
+<div class:list={['chip-list', small && 'chip-list-small']}>
+  {
+    entries?.length ? (
+      entries.map((entry) => {
+        const slug = entry?.toLowerCase().replace(/\s/g, '-');
+        return (
+          <a class="win-button chip" href={getLocaleUrl(`blog/${type}/${slug}`, locale)}>
+            {type === 'tags' ? '#' : '▤'} {t(`${type}-t.${entry}`)}
+          </a>
+        );
+      })
+    ) : (
+      <p>{t('labels.no-entries')}...</p>
+    )
+  }
+</div>

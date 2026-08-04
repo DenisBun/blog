@@ -1,0 +1,42 @@
+---
+import { getLocaleUrl, useTranslations } from '@utils/i18n';
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="error-page" aria-labelledby="error-title">
+  <div class="window error-dialog">
+    <div class="window-titlebar">
+      <span class="window-title"><span aria-hidden="true">▣</span> {t('pages.404.window-title')}</span>
+      <span class="window-controls" aria-hidden="true"><span>×</span></span>
+    </div>
+    <div class="window-content error-dialog-content">
+      <div class="error-dialog-message">
+        <span class="error-icon" aria-hidden="true">×</span>
+        <div>
+          <p class="eyebrow">HTTP 404</p>
+          <h1 id="error-title">{t('pages.404.title')}</h1>
+          <p>{t('pages.404.message')}</p>
+        </div>
+      </div>
+
+      <div class="error-path">
+        <span>{t('pages.404.path-label')}</span>
+        <code data-requested-path>{Astro.url.pathname}</code>
+      </div>
+
+      <nav class="button-row error-actions" aria-label={t('pages.404.actions-label')}>
+        <a class="win-button primary-action" href={getLocaleUrl('/', locale)}>{t('pages.404.home-cta')}</a>
+        <a class="win-button" href={getLocaleUrl('blog', locale)}>{t('pages.404.blog-cta')}</a>
+      </nav>
+    </div>
+    <div class="status-bar"><span>{t('pages.404.status')}</span><span>{locale.toUpperCase()}</span></div>
+  </div>
+</section>
+
+<script is:inline>
+  document.querySelectorAll('[data-requested-path]').forEach((element) => {
+    element.textContent = window.location.pathname;
+  });
+</script>

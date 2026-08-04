@@ -1,0 +1,26 @@
+---
+import ListItem from '@components/blog/list-item.astro';
+import type { CollectionEntry } from 'astro:content';
+import '@styles/blog.css';
+
+interface Props {
+  entries: CollectionEntry<'articles'>[];
+  locale: string;
+  firstBig?: boolean;
+}
+
+const { entries, locale, firstBig } = Astro.props as Props;
+const featured = firstBig ? entries[0] : undefined;
+const remaining = entries.slice(featured ? 1 : 0);
+---
+
+{
+  featured && (
+    <div class="featured-post">
+      <ListItem entry={featured} {locale} wide />
+    </div>
+  )
+}
+<div class="post-grid">
+  {remaining.map((entry) => <ListItem {entry} {locale} />)}
+</div>
