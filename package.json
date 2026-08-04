@@ -13,14 +13,24 @@
   },
   "dependencies": {
     "@astrojs/markdoc": "^2.0.6",
+    "@astrojs/partytown": "^2.1.7",
     "@astrojs/react": "^6.0.2",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/svelte": "^9.0.1",
+    "@astrojs/vue": "^7.0.1",
     "@keystatic/astro": "^5.2.0",
     "@keystatic/core": "^0.6.4",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "astro": "^7.1.6",
+    "astro-icon": "^1.1.5",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "svelte": "^5.56.8",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
+    "vue": "^3.5.40"
   },
   "devDependencies": {
     "@types/node": "^26.1.2"
