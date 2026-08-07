@@ -12,28 +12,26 @@ const prompt = locale === themeConfig.i18n.defaultLocale ? themeConfig.askAiTrig
 const llmsUrl = new URL('/llms.txt', themeConfig.site).href;
 ---
 
-<section id="ask-ai" class="window ask-ai-window" aria-labelledby="ask-ai-title">
-  <div class="window-titlebar">
-    <span id="ask-ai-title" class="window-title"><span aria-hidden="true">✦</span> ask-ai.exe</span>
-    <span class="window-controls" aria-hidden="true"><span>_</span><span>□</span><span>×</span></span>
-  </div>
-  <div class="window-content">
-    <div class="ask-ai-intro">
-      <div class="ask-ai-icon" aria-hidden="true">AI</div>
-      <div>
-        <h2>{t('ai.title')}</h2>
-        <p>{t('ai.description')}</p>
+<section id="ask-ai" class="ask-ai-section editorial-section" aria-labelledby="ask-ai-title">
+  <header class="section-heading">
+    <h2 id="ask-ai-title">{t('ai.title')}</h2>
+    <span aria-hidden="true">✦</span>
+  </header>
+  <div class="ask-ai-content">
+    <div class="ask-ai-copy">
+      <p>{t('ai.description')}</p>
+      <p class="annotation">{t('ai.provider-note')} · llms.txt</p>
+    </div>
+    <div class="ask-ai-prompt-wrap">
+      <label for="ask-ai-prompt">{t('ai.prompt-label')}</label>
+      <textarea id="ask-ai-prompt" class="ask-ai-prompt" rows="5" readonly>{prompt}</textarea>
+      <div class="quiet-actions">
+        <button class="text-button" type="button" data-copy-ai data-success={t('ai.copied')} data-error={t('ai.copy-error')}>{t('ai.copy')} →</button>
+        <a href={llmsUrl}>{t('ai.view-context')} →</a>
       </div>
+      <p class="ask-ai-status" data-copy-status role="status" aria-live="polite"></p>
     </div>
-    <label for="ask-ai-prompt">{t('ai.prompt-label')}</label>
-    <textarea id="ask-ai-prompt" class="ask-ai-prompt" rows="5" readonly>{prompt}</textarea>
-    <div class="button-row">
-      <button class="win-button primary-action" type="button" data-copy-ai data-success={t('ai.copied')} data-error={t('ai.copy-error')}>{t('ai.copy')}</button>
-      <a class="win-button" href={llmsUrl}>{t('ai.view-context')}</a>
-    </div>
-    <p class="ask-ai-status" data-copy-status role="status" aria-live="polite"></p>
   </div>
-  <div class="status-bar"><span>{t('ai.provider-note')}</span><span>llms.txt</span></div>
 </section>
 
 <script>

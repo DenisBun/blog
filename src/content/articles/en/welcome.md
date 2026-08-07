@@ -2,8 +2,8 @@
 publishDate: 2026-08-04
 featured: true
 llmsTxt: true
-title: Welcome to my new-old website
-excerpt: A small example post introducing this Windows 95-inspired corner of the web.
+title: Welcome to my open notebook
+excerpt: A small example post introducing this quiet, notebook-inspired corner of the web.
 categories:
   - Notes
 tags:
@@ -11,11 +11,11 @@ tags:
   - Personal
 ---
 
-This is the first example post on my new website. It is built with Astro, but it borrows its visual language from the desktop computers of the 1990s.
+This is the first example post on my new website. It is built with Astro and shaped like an open field notebook: quiet, direct, and made for reading.
 
 ## Why this look?
 
-Old interfaces were direct. Windows looked like windows, buttons looked clickable, and every screen had a strong sense of place. I wanted to keep some of that character without giving up modern accessibility, responsive layouts, or fast pages.
+Typography, spacing, and a little paper texture are enough to give writing a sense of place. I wanted the site to feel edited rather than engineered, without giving up modern accessibility, responsive layouts, or fast pages.
 
 ## What comes next?
 
@@ -24,7 +24,7 @@ This post is intentionally simple. Replace it with a real article whenever you a
 ```ts
 const website = {
   framework: 'Astro',
-  mood: 'Windows 95',
+  mood: 'open notebook',
   languages: ['en', 'ru'],
 };
 ```

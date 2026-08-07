@@ -18,6 +18,7 @@
     "check:type": "tsc --noEmit",
     "check:eslint": "eslint .",
     "check:prettier": "prettier --check .",
+    "check:visual": "node scripts/captureResponsive.js",
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
@@ -28,7 +29,7 @@
     "blog",
     "personal-website",
     "i18n",
-    "windows-95"
+    "editorial-design"
   ],
   "author": {
     "name": "Denis Bunchenko",
@@ -40,6 +41,8 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/dm-mono": "^5.3.0",
+    "@fontsource/literata": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.1.6",
     "astro-expressive-code": "^0.44.1",

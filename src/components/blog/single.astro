@@ -32,22 +32,17 @@ const updated = entry.data.updateDate?.toLocaleDateString(locale, { dateStyle: '
 ---
 
 <article id="start" class="article-layout">
-  <header class="window article-header">
-    <div class="window-titlebar">
-      <span class="window-title">{entry.id.split('/').at(-1)}.txt</span>
-      <span class="window-controls" aria-hidden="true"><span>_</span><span>□</span><span>×</span></span>
-    </div>
-    {imageFile ? <Image id="title-image" src={imageFile} alt={entry.data.image?.alt || ''} widths={[640, 960, 1440]} sizes="(min-width: 976px) 900px, 100vw" priority /> : entry.data.image?.url ? <Image id="title-image" src={entry.data.image.url} alt={entry.data.image.alt || ''} inferSize priority /> : null}
+  <header class="article-header">
+    <p class="eyebrow">{entry.data.categories?.[0] || t('labels.blog')}</p>
     <div class="article-heading">
-      <p class="eyebrow">C:\DENIS\BLOG</p>
       <h1>{entry.data.title}</h1>
       {entry.data.excerpt && <p class="lead">{entry.data.excerpt}</p>}
     </div>
-    <div class="status-bar article-meta">
+    <div class="article-meta">
       {
         authorName && (
           <span>
-            {t('labels.author')}:{' '}
+            {t('labels.author')}{' '}
             {authorUrl ? (
               <a href={authorUrl} rel="author">
                 {authorName}
@@ -58,11 +53,11 @@ const updated = entry.data.updateDate?.toLocaleDateString(locale, { dateStyle: '
           </span>
         )
       }
-      <span>{t('labels.published')}: <time datetime={entry.data.publishDate.toISOString()}>{published}</time></span>
+      <span><time datetime={entry.data.publishDate.toISOString()}>{published}</time></span>
       {
         updated && (
           <span>
-            {t('labels.updated')}: {updated}
+            {t('labels.updated')}: <time datetime={entry.data.updateDate?.toISOString()}>{updated}</time>
           </span>
         )
       }
@@ -71,10 +66,22 @@ const updated = entry.data.updateDate?.toLocaleDateString(locale, { dateStyle: '
   </header>
 
   {
+    imageFile ? (
+      <figure class="article-cover">
+        <Image src={imageFile} alt={entry.data.image?.alt || ''} widths={[640, 960, 1440]} sizes="(min-width: 976px) 900px, 100vw" priority />
+      </figure>
+    ) : entry.data.image?.url ? (
+      <figure class="article-cover">
+        <Image src={entry.data.image.url} alt={entry.data.image.alt || ''} inferSize priority />
+      </figure>
+    ) : null
+  }
+
+  {
     reducedHeadings.length > 0 && (
-      <details class="window toc-mobile">
+      <details class="toc-mobile">
         <>
-          <summary class="win-button">{t('labels.toc')}</summary>
+          <summary>{t('labels.toc')}</summary>
           <TableOfContents headings={reducedHeadings} {locale} />
         </>
       </details>
@@ -82,9 +89,8 @@ const updated = entry.data.updateDate?.toLocaleDateString(locale, { dateStyle: '
   }
 
   <div class="article-columns">
-    <div class="window article-body">
-      <div class="window-titlebar"><span class="window-title">document</span></div>
-      <div class="window-content markdown-content"><Content /></div>
+    <div class="article-body">
+      <div class="markdown-content"><Content /></div>
       <div class="article-taxonomy">
         <CatTagList entries={entry.data.categories} {locale} type="categories" small />
         <CatTagList entries={entry.data.tags} {locale} type="tags" small />
@@ -92,33 +98,29 @@ const updated = entry.data.updateDate?.toLocaleDateString(locale, { dateStyle: '
     </div>
     {
       reducedHeadings.length > 0 && (
-        <aside class="window toc-desktop">
-          <>
-            <div class="window-titlebar">
-              <span class="window-title">{t('labels.toc')}</span>
-            </div>
-            <TableOfContents headings={reducedHeadings} {locale} />
-          </>
+        <aside class="toc-desktop">
+          <h2>{t('labels.toc')}</h2>
+          <TableOfContents headings={reducedHeadings} {locale} />
         </aside>
       )
     }
   </div>
 
-  <section class="window share-window">
-    <div class="window-titlebar"><span class="window-title">share.exe</span></div>
-    <div class="window-content"><h2>{t('labels.share-article')}</h2><SocialShare url={articleUrl} title={entry.data.title} emailSubject={t('labels.share-email-subject')} {locale} /></div>
+  <section class="share-section editorial-section">
+    <header class="section-heading"><h2>{t('labels.share-article')}</h2></header>
+    <SocialShare url={articleUrl} title={entry.data.title} emailSubject={t('labels.share-email-subject')} {locale} />
   </section>
 
   {
     (prev || next) && (
-      <section class="related-posts">
-        <>
+      <section class="related-posts editorial-section">
+        <header class="section-heading">
           <h2>{t('labels.continue-reading')}</h2>
-          <div class="post-grid">
-            {prev && <ListItem entry={prev} {locale} noTransition />}
-            {next && <ListItem entry={next} {locale} noTransition />}
-          </div>
-        </>
+        </header>
+        <div class="post-feed">
+          {prev && <ListItem entry={prev} {locale} noTransition />}
+          {next && <ListItem entry={next} {locale} noTransition />}
+        </div>
       </section>
     )
   }

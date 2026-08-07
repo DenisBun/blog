@@ -3,7 +3,6 @@ import '@styles/global.css';
 import '@styles/blog.css';
 import Footer from '@components/layout/footer.astro';
 import Header from '@components/layout/header.astro';
-import LanguageSelect from '@components/layout/language-select.astro';
 import HeadBase from '@components/head/base.astro';
 import HeadHrefLang from '@components/head/hreflang.astro';
 import HeadOgX from '@components/head/ogx.astro';
@@ -41,11 +40,10 @@ const imageUrl = imgUrl ? new URL(imgUrl, Astro.site).href : undefined;
     <ArticleStructuredData {title} {description} {articleEntry} {locale} />
   </head>
   <body>
-    <div class="desktop">
-      <Header {locale} button={{ text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) }} />
+    <div class="site-page">
+      <Header {locale} button={{ text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) }} {noi18n} collection="articles" contentId={articleEntry.id} />
       <main id="main-content"><div class="site-shell"><slot /></div></main>
-      <div class="site-shell"><Footer {locale} /></div>
-      <LanguageSelect {noi18n} collection="articles" contentId={articleEntry.id} {locale} />
+      <Footer {noi18n} collection="articles" contentId={articleEntry.id} {locale} />
     </div>
   </body>
 </html>

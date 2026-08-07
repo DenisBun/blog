@@ -51,7 +51,7 @@ function isEnabled(key: (typeof links)[number]['key']) {
     links
       .filter(({ key }) => isEnabled(key))
       .map(({ label, href }) => (
-        <a class="win-button" href={href} target="_blank" rel="noreferrer noopener" aria-label={`${t('labels.share-article')}: ${label}`}>
+        <a href={href} target="_blank" rel="noreferrer noopener" aria-label={`${t('labels.share-article')}: ${label}`}>
           {label}
         </a>
       ))

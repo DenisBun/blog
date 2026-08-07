@@ -8,9 +8,10 @@ interface Props {
   noi18n?: boolean;
   collection?: CollectionKey;
   contentId?: string;
+  variant?: 'header' | 'footer';
 }
 
-const { locale, noi18n, collection, contentId } = Astro.props as Props;
+const { locale, noi18n, collection, contentId, variant = 'footer' } = Astro.props as Props;
 const t = useTranslations(locale);
 const translated = await checkTranslatedPath(locale, noi18n, collection, contentId);
 const cleanPath = Astro.url.pathname.replace(`/${locale}/`, '/');
@@ -28,16 +29,18 @@ const links = await Promise.all(
 );
 ---
 
-<nav class="language-switcher" aria-label={t('i18n.select-language')}>
-  <span aria-hidden="true">🌐</span>
+<nav class:list={['language-switcher', `language-switcher-${variant}`]} aria-label={t('i18n.select-language')}>
+  <span class="visually-hidden">{t('labels.language')}:</span>
   {
     links.map((item) =>
       item.enabled ? (
         <a href={item.href} lang={item.code} hreflang={item.code} aria-current={item.code === locale ? 'page' : undefined}>
-          {item.code.toUpperCase()}
+          {item.code}
         </a>
       ) : (
-        <span aria-disabled="true">{item.code.toUpperCase()}</span>
+        <span aria-disabled="true" title={t('i18n.noi18n')}>
+          {item.code}
+        </span>
       ),
     )
   }

@@ -12,7 +12,7 @@ const t = useTranslations(locale);
 ---
 
 <nav class="toc-list" aria-label={t('labels.toc')}>
-  <a href={`${baseUrl}#start`}>↑ {t('labels.to-start')}</a>
+  <a class="toc-top" href={`${baseUrl}#start`}>↑ {t('labels.to-start')}</a>
   {
     headings.map(({ depth, text, slug }) => (
       <a class:list={[depth > 2 && 'toc-nested']} href={`${baseUrl}#${slug}`}>

@@ -18,21 +18,39 @@ const t = useTranslations(locale);
 const slug = entry.id.split('/').at(-1);
 const imageFile = entry.data.image?.file || (!entry.data.image?.url && themeConfig.articles?.imageFallback ? FallbackImage : undefined);
 const date = entry.data.publishDate.toLocaleDateString(locale, { dateStyle: 'medium' });
+const monthYear = entry.data.publishDate.toLocaleDateString(locale, { month: 'short', year: 'numeric' });
 ---
 
-<article class:list={['window post-card', wide && 'post-card-wide']}>
-  <div class="window-titlebar">
-    <span class="window-title">{slug}.txt</span>
-    {entry.data.featured && <span class="featured-label">★ {t('labels.featured')}</span>}
+<article class:list={['post-entry', wide && 'post-entry-featured']}>
+  {
+    wide && (
+      <a class="post-entry-image" href={getLocaleUrl(`blog/${slug}`, locale)} tabindex="-1" aria-hidden="true">
+        {imageFile ? <Image src={imageFile} alt="" widths={[320, 640, 960]} sizes="(min-width: 768px) 42vw, 100vw" /> : entry.data.image?.url ? <Image src={entry.data.image.url} alt="" inferSize /> : null}
+      </a>
+    )
+  }
+  {!wide && <time datetime={entry.data.publishDate.toISOString()}>{monthYear}</time>}
+  <div class="post-entry-copy">
+    <div class="post-entry-meta">
+      {wide && <time datetime={entry.data.publishDate.toISOString()}>{date}</time>}
+      {entry.data.categories?.[0] && <span>{t(`categories-t.${entry.data.categories[0]}`)}</span>}
+      {entry.data.featured && <span>{t('labels.featured')}</span>}
+    </div>
+    <h2><a href={getLocaleUrl(`blog/${slug}`, locale)}>{entry.data.title}</a></h2>
+    {entry.data.excerpt && <p>{entry.data.excerpt}</p>}
+    {
+      wide && (
+        <span class="reading-time">
+          {getReadingTime(entry.body)} {t('labels.min-read')}
+        </span>
+      )
+    }
   </div>
-  <a class="post-card-link" href={getLocaleUrl(`blog/${slug}`, locale)}>
-    <span class="post-image">
-      {imageFile ? <Image src={imageFile} alt={entry.data.image?.alt || ''} widths={[320, 640, 960]} sizes={wide ? '(min-width: 768px) 40vw, 100vw' : '(min-width: 768px) 33vw, 100vw'} /> : entry.data.image?.url ? <Image src={entry.data.image.url} alt={entry.data.image.alt || ''} inferSize /> : null}
-    </span>
-    <span class="post-card-copy">
-      <span class="post-card-title">{entry.data.title}</span>
-      <span>{entry.data.excerpt}</span>
-      <span class="status-bar"><span>{date}</span><span>{getReadingTime(entry.body)} {t('labels.min-read')}</span></span>
-    </span>
-  </a>
+  {
+    !wide && (
+      <a class="post-entry-arrow" href={getLocaleUrl(`blog/${slug}`, locale)} tabindex="-1" aria-hidden="true">
+        →
+      </a>
+    )
+  }
 </article>

@@ -5,8 +5,8 @@ import ruStrings from './src/i18n/ru.json' with { type: 'json' };
 
 export const themeConfig: ThemeConfig = {
   site: import.meta.env?.SITE_OVERRIDE || 'https://denisbunchenko.com',
-  primaryColor: '#000080',
-  themeColor: '#008080',
+  primaryColor: '#788c5d',
+  themeColor: '#f5f4ed',
   generateWebmanifest: true,
   name: 'Denis Bunchenko',
   shortName: 'Denis',

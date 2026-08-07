@@ -27,6 +27,6 @@ const categories = [...new Set(allArticles.map((article) => article.data.categor
 ---
 
 <Layout title={t('labels.categories')} header={{ button: { text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) } }}>
-  <Headline text={t('labels.categories')} icon="heroicons:rectangle-stack" class="pb-10" />
+  <Headline text={t('labels.categories')} />
   <List entries={categories} {locale} type="categories" />
 </Layout>

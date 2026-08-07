@@ -1,13 +1,18 @@
 ---
+import type { CollectionKey } from 'astro:content';
+import LanguageSelect from '@components/layout/language-select.astro';
 import { getLocaleUrl, useTranslations } from '@utils/i18n';
 
 interface Props {
   locale: string;
   button?: { text: string; href: string };
   isHome?: boolean;
+  noi18n?: boolean;
+  collection?: CollectionKey;
+  contentId?: string;
 }
 
-const { locale, button, isHome } = Astro.props as Props;
+const { locale, button, isHome, noi18n, collection, contentId } = Astro.props as Props;
 const t = useTranslations(locale);
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const items = [
@@ -17,31 +22,28 @@ const items = [
 ];
 ---
 
-<header class="site-shell site-header" role="banner">
-  <a class="skip-link" href="#main-content">Skip to content</a>
-  <div class="window" aria-label="Site navigation">
-    <div class="window-titlebar">
-      <a href={getLocaleUrl('/', locale)} class="window-title" aria-current={isHome ? 'page' : undefined}>
-        <img src="/favicon-96x96.png" width="20" height="20" alt="" />
-        Denis Bunchenko
-      </a>
-      <span class="window-controls" aria-hidden="true"><span>_</span><span>□</span><span>×</span></span>
-    </div>
-    <nav class="window-menubar" aria-label="Primary navigation">
+<header class="site-header" role="banner">
+  <a class="skip-link" href="#main-content">{t('labels.skip-content')}</a>
+  <div class="site-header-inner site-shell">
+    <a href={getLocaleUrl('/', locale)} class="site-title" aria-current={isHome ? 'page' : undefined}> Denis Bunchenko </a>
+    <div class="site-navigation">
       {
         button && (
-          <a class="menu-link menu-link-back" href={button.href}>
-            ← {button.text}
-          </a>
+          <nav class="back-navigation" aria-label={t('labels.back-navigation')}>
+            <a href={button.href}>← {button.text}</a>
+          </nav>
         )
       }
-      {
-        items.map((item) => (
-          <a class="menu-link" href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
+      <nav class="primary-navigation" aria-label={t('labels.primary-navigation')}>
+        {
+          items.map((item) => (
+            <a href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <LanguageSelect variant="header" {noi18n} {collection} {contentId} {locale} />
+    </div>
   </div>
 </header>

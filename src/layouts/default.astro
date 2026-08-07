@@ -2,7 +2,6 @@
 import '@styles/global.css';
 import Footer from '@components/layout/footer.astro';
 import Header from '@components/layout/header.astro';
-import LanguageSelect from '@components/layout/language-select.astro';
 import HeadBase from '@components/head/base.astro';
 import HeadHrefLang from '@components/head/hreflang.astro';
 import HeadOgX from '@components/head/ogx.astro';
@@ -62,8 +61,8 @@ const publisher = {
     <WebPageStructuredData type="WebPage" {title} {description} image="/images/structured-preview.png" {author} {publisher} {locale} />
   </head>
   <body>
-    <div class="desktop">
-      {header?.hidden !== true && <Header {locale} button={header?.button} isHome={isHome} />}
+    <div class="site-page">
+      {header?.hidden !== true && <Header {locale} button={header?.button} isHome={isHome} {noi18n} {collection} {contentId} />}
       <main id="main-content">
         {
           noContainer ? (
@@ -75,8 +74,7 @@ const publisher = {
           )
         }
       </main>
-      <div class="site-shell"><Footer {locale} /></div>
-      <LanguageSelect {noi18n} {collection} {contentId} {locale} />
+      <Footer {noi18n} {collection} {contentId} {locale} />
     </div>
   </body>
 </html>

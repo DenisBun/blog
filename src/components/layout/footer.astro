@@ -1,16 +1,27 @@
 ---
+import type { CollectionKey } from 'astro:content';
+import LanguageSelect from '@components/layout/language-select.astro';
 import { getLocaleUrl, useTranslations } from '@utils/i18n';
 import { themeConfig } from '~/theme.config';
 
-const { locale } = Astro.props;
+interface Props {
+  locale: string;
+  noi18n?: boolean;
+  collection?: CollectionKey;
+  contentId?: string;
+}
+
+const { locale, noi18n, collection, contentId } = Astro.props as Props;
 const t = useTranslations(locale);
 ---
 
-<footer class="window site-footer">
-  <div class="window-titlebar"><span class="window-title">status.log</span></div>
-  <div class="status-bar">
-    <span>© {new Date().getFullYear()} {themeConfig.author.name}</span>
-    <a href={getLocaleUrl('rss.xml', locale)}>{t('labels.rss')}</a>
-    <span>Astro / Netlify</span>
+<footer class="site-footer">
+  <div class="site-footer-inner site-shell">
+    <span class="footer-signature">© {new Date().getFullYear()} {themeConfig.author.name}</span>
+    <div class="footer-links">
+      <a href={getLocaleUrl('rss.xml', locale)}>{t('labels.rss')}</a>
+      <LanguageSelect variant="footer" {noi18n} {collection} {contentId} {locale} />
+      <span class="footer-credit">Astro · Netlify</span>
+    </div>
   </div>
 </footer>

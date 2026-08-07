@@ -18,8 +18,9 @@ const t = useTranslations(locale);
       entries.map((entry) => {
         const slug = entry?.toLowerCase().replace(/\s/g, '-');
         return (
-          <a class="win-button chip" href={getLocaleUrl(`blog/${type}/${slug}`, locale)}>
-            {type === 'tags' ? '#' : '▤'} {t(`${type}-t.${entry}`)}
+          <a class="taxonomy-link" href={getLocaleUrl(`blog/${type}/${slug}`, locale)}>
+            {type === 'tags' ? '#' : ''}
+            {t(`${type}-t.${entry}`)}
           </a>
         );
       })

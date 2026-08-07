@@ -31,7 +31,12 @@
     "share-email-subject": "An article from Denis Bunchenko",
     "email": "Email",
     "continue-reading": "Continue reading",
-    "rss": "RSS feed"
+    "rss": "RSS feed",
+    "skip-content": "Skip to content",
+    "primary-navigation": "Primary navigation",
+    "back-navigation": "Back navigation",
+    "desktop-shortcuts": "Site shortcuts",
+    "ready": "Ready"
   },
   "meta": {
     "title": "Denis Bunchenko",
@@ -61,7 +66,7 @@
   "pages": {
     "404": {
       "title": "404 - File not found",
-      "message": "Windows cannot find this page. It may have been moved, renamed, or never saved.",
+      "message": "This page is missing from the notebook. It may have moved, or perhaps it was never written.",
       "window-title": "Page not found",
       "path-label": "Requested location:",
       "actions-label": "Error recovery options",
@@ -72,18 +77,21 @@
     "home": {
       "title": "Denis Bunchenko - Personal Blog",
       "description": "The personal website and bilingual blog of Denis Bunchenko.",
-      "hero-title": "Welcome to my corner of the web",
+      "hero-title": "Denis Bunchenko",
       "hero-sub-slogan": "Notes, experiments, and things worth remembering.",
-      "window-title": "welcome.txt",
-      "intro": "This is my personal website, dressed like the computers I grew up with.",
+      "window-title": "Welcome",
+      "intro": "This is my personal website: a quiet notebook kept in the open.",
       "body": "I write about work, technology, and whatever else survives the trip from a passing thought to a saved file.",
       "blog-cta": "Open the blog",
-      "about-cta": "About Denis"
+      "about-cta": "About Denis",
+      "recent-articles": "Recent articles",
+      "view-all": "View all"
     },
     "about": {
       "title": "About",
       "description": "About Denis Bunchenko and this personal website.",
-      "window-title": "about.exe",
+      "window-title": "About",
+      "eyebrow": "About",
       "heading": "Denis Bunchenko",
       "body-1": "Hello. I am Denis, and this is my personal space on the web.",
       "body-2": "This page is intentionally small for now. More details can be added when there is something useful to say."

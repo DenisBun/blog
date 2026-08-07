@@ -8,7 +8,7 @@ interface Props {
 const { text, class: className = '' } = Astro.props as Props;
 ---
 
-<div class:list={['window page-heading', className]}>
-  <div class="window-titlebar"><span class="window-title">{text.toLowerCase()}.dir</span></div>
-  <div class="window-content"><h1>{text}</h1></div>
-</div>
+<header class:list={['page-heading', className]}>
+  <p class="eyebrow">{text}</p>
+  <h1>{text}</h1>
+</header>

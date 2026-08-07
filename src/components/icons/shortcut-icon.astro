@@ -1,0 +1,47 @@
+---
+interface Props {
+  name: 'blog' | 'about' | 'ai' | 'rss';
+}
+
+const { name } = Astro.props as Props;
+---
+
+<svg class="shortcut-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false" shape-rendering="crispEdges">
+  {
+    name === 'blog' && (
+      <>
+        <path d="M5 3h18v4h4v22H5z" fill="#fff" />
+        <path d="M23 3v4h4" fill="none" stroke="currentColor" stroke-width="2" />
+        <path d="M5 3h18l4 4v22H5z" fill="none" stroke="currentColor" stroke-width="2" />
+        <path d="M9 11h14v2H9zm0 5h14v2H9zm0 5h10v2H9z" />
+      </>
+    )
+  }
+  {
+    name === 'about' && (
+      <>
+        <path d="M4 3h24v26H4z" fill="#d8d8d8" stroke="currentColor" stroke-width="2" />
+        <path d="M8 4h15v9H8z" fill="#000080" />
+        <path d="M10 18h12v8H10z" fill="#fff" stroke="currentColor" stroke-width="2" />
+        <path d="M20 6h2v5h-2z" fill="#fff" />
+      </>
+    )
+  }
+  {
+    name === 'ai' && (
+      <>
+        <path d="m16 2 3 9 9 3-9 3-3 11-3-11-9-3 9-3z" fill="#ffff00" stroke="currentColor" stroke-width="2" />
+        <path d="m25 3 1 4 4 1-4 1-1 4-1-4-4-1 4-1z" fill="#fff" stroke="currentColor" />
+      </>
+    )
+  }
+  {
+    name === 'rss' && (
+      <>
+        <path d="M4 4h24v24H4z" fill="#fff" stroke="currentColor" stroke-width="2" />
+        <circle cx="10" cy="22" r="3" fill="#000080" />
+        <path d="M8 14a10 10 0 0 1 10 10M8 8a16 16 0 0 1 16 16" fill="none" stroke="#000080" stroke-width="3" />
+      </>
+    )
+  }
+</svg>

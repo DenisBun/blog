@@ -27,8 +27,8 @@ const numberOfPages = Math.ceil(page.total / page.size);
 <Layout {locale} title={t('pages.blog.title')} description={t('pages.blog.description')}>
   <Headline text={t('pages.blog.title')} />
   <nav class="blog-tools" aria-label={t('pages.blog.title')}>
-    <a class="win-button" href={getLocaleUrl('blog/categories', locale)}>▤ {t('labels.categories')}</a>
-    <a class="win-button" href={getLocaleUrl('blog/tags', locale)}>⌑ {t('labels.tags')}</a>
+    <a href={getLocaleUrl('blog/categories', locale)}>{t('labels.categories')}</a>
+    <a href={getLocaleUrl('blog/tags', locale)}>{t('labels.tags')}</a>
   </nav>
   <List entries={page.data} {locale} firstBig={page.currentPage === 1} />
   {numberOfPages > 1 && <Pagination {page} {locale} />}

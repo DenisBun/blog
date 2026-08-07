@@ -1,41 +1,46 @@
 ---
 import { getLocaleUrl, useTranslations } from '@utils/i18n';
 import AskAi from '@components/ai/ask-ai.astro';
+import List from '@components/blog/list.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { sortArticleList } from '@utils/blog';
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+const recentArticles = sortArticleList(
+  (await getCollection('articles', ({ id, data }) => !data.draft && id.startsWith(`${locale}/`))) as CollectionEntry<'articles'>[],
+).slice(0, 4);
 ---
 
-<section class="home-grid" aria-labelledby="home-title">
-  <div class="window hero-window">
-    <div class="window-titlebar">
-      <span class="window-title"><span aria-hidden="true">▣</span> {t('pages.home.window-title')}</span>
-      <span class="window-controls" aria-hidden="true"><span>_</span><span>□</span><span>×</span></span>
-    </div>
-    <div class="window-content">
-      <p class="eyebrow">C:\DENIS\HOME</p>
+<div class="home-page">
+  <header class="page-intro" aria-labelledby="home-title">
+    <p class="eyebrow">{t('meta.slogan')}</p>
+    <div class="page-intro-heading">
       <h1 id="home-title">{t('pages.home.hero-title')}</h1>
       <p class="lead">{t('pages.home.hero-sub-slogan')}</p>
-      <hr class="win-rule" />
+    </div>
+    <div class="page-intro-copy">
       <p>{t('pages.home.intro')}</p>
       <p>{t('pages.home.body')}</p>
-      <div class="button-row">
-        <a class="win-button primary-action" href={getLocaleUrl('blog', locale)}>{t('pages.home.blog-cta')}</a>
-        <a class="win-button" href={getLocaleUrl('about', locale)}>{t('pages.home.about-cta')}</a>
-      </div>
+      <p class="text-links">
+        <a href={getLocaleUrl('blog', locale)}>{t('pages.home.blog-cta')} →</a>
+        <a href={getLocaleUrl('about', locale)}>{t('pages.home.about-cta')} →</a>
+      </p>
     </div>
-    <div class="status-bar"><span>Ready</span><span>{locale.toUpperCase()}</span></div>
-  </div>
+  </header>
 
-  <aside class="window shortcut-window" aria-label="Desktop shortcuts">
-    <div class="window-titlebar"><span class="window-title">shortcuts</span></div>
-    <div class="shortcut-list">
-      <a href={getLocaleUrl('blog', locale)}><span class="shortcut-icon" aria-hidden="true">📝</span><span>{t('labels.blog')}</span></a>
-      <a href={getLocaleUrl('about', locale)}><span class="shortcut-icon" aria-hidden="true">💾</span><span>{t('labels.about')}</span></a>
-      <a href="#ask-ai"><span class="shortcut-icon" aria-hidden="true">✨</span><span>{t('ai.shortcut')}</span></a>
-      <a href={getLocaleUrl('rss.xml', locale)}><span class="shortcut-icon" aria-hidden="true">📡</span><span>{t('labels.rss')}</span></a>
-    </div>
-  </aside>
-</section>
+  {
+    recentArticles.length > 0 && (
+      <section class="editorial-section" aria-labelledby="recent-articles-title">
+        <header class="section-heading">
+          <h2 id="recent-articles-title">{t('pages.home.recent-articles')}</h2>
+          <a href={getLocaleUrl('blog', locale)}>{t('pages.home.view-all')} →</a>
+        </header>
+        <List entries={recentArticles} {locale} firstBig />
+      </section>
+    )
+  }
 
-<AskAi {locale} />
+  <AskAi {locale} />
+</div>

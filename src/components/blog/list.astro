@@ -16,11 +16,11 @@ const remaining = entries.slice(featured ? 1 : 0);
 
 {
   featured && (
-    <div class="featured-post">
+    <div class="featured-entry">
       <ListItem entry={featured} {locale} wide />
     </div>
   )
 }
-<div class="post-grid">
+<div class="post-feed">
   {remaining.map((entry) => <ListItem {entry} {locale} />)}
 </div>
