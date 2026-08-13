@@ -16,11 +16,13 @@ const t = useTranslations(locale);
 const translated = await checkTranslatedPath(locale, noi18n, collection, contentId);
 const cleanPath = Astro.url.pathname.replace(`/${locale}/`, '/');
 const basePath = cleanPath.split('/').slice(0, -1).join('/');
-const hasTranslation = (code: string) => code === 'en' ? translated.en : code === 'ru' ? translated.ru : false;
+const languageNames = Object.entries(themeConfig.i18n.languages);
+const hasTranslation = (code: string) => Object.entries(translated).find(([translatedCode]) => translatedCode === code)?.[1] ?? false;
 
 const links = await Promise.all(
   themeConfig.i18n.locales.map(async (code) => ({
     code,
+    name: languageNames.find(([languageCode]) => languageCode === code)?.[1] ?? code,
     enabled: hasTranslation(code),
     href: collection && contentId
       ? await getLocaleUrlWithContent(contentId, collection, code, false, basePath)
@@ -30,18 +32,33 @@ const links = await Promise.all(
 ---
 
 <nav class:list={['language-switcher', `language-switcher-${variant}`]} aria-label={t('i18n.select-language')}>
-  <span class="visually-hidden">{t('labels.language')}:</span>
-  {
-    links.map((item) =>
-      item.enabled ? (
-        <a href={item.href} lang={item.code} hreflang={item.code} aria-current={item.code === locale ? 'page' : undefined}>
-          {item.code}
-        </a>
-      ) : (
-        <span aria-disabled="true" title={t('i18n.noi18n')}>
-          {item.code}
-        </span>
-      ),
-    )
-  }
+  <details>
+    <summary aria-label={`${t('i18n.select-language')}: ${links.find((item) => item.code === locale)?.name ?? locale}`}>
+      <span>{locale.toUpperCase()}</span>
+      <span class="language-switcher-chevron" aria-hidden="true">⌄</span>
+    </summary>
+    <ul class="language-switcher-menu" role="list">
+      {
+        links.map((item) => (
+          <li>
+            {item.enabled ? (
+              <a href={item.href} lang={item.code} hreflang={item.code} aria-current={item.code === locale ? 'page' : undefined}>
+                <span>{item.name}</span>
+                <span class="language-switcher-code" aria-hidden="true">
+                  {item.code}
+                </span>
+              </a>
+            ) : (
+              <span aria-disabled="true" title={t('i18n.noi18n')}>
+                <span>{item.name}</span>
+                <span class="language-switcher-code" aria-hidden="true">
+                  {item.code}
+                </span>
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </details>
 </nav>

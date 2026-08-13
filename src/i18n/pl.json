@@ -1,0 +1,121 @@
+{
+  "labels": {
+    "home": "Strona główna",
+    "about": "O mnie",
+    "blog": "Blog",
+    "language": "Język",
+    "english": "English",
+    "russian": "Русский",
+    "polish": "Polski",
+    "categories": "Kategorie",
+    "category": "Kategoria",
+    "tags": "Tagi",
+    "tag": "Tag",
+    "featured": "Wyróżnione",
+    "min-read": "min czytania",
+    "author": "Autor",
+    "published": "Opublikowano",
+    "updated": "Zaktualizowano",
+    "back": "Wstecz",
+    "back-overview": "Wróć do przeglądu",
+    "back-all-articles": "Wszystkie artykuły",
+    "pagination": "Nawigacja stron",
+    "page": "Strona",
+    "prev": "Poprzednia",
+    "next": "Następna",
+    "no-entries": "Brak wpisów",
+    "toc": "Spis treści",
+    "to-start": "Wróć na górę",
+    "open-menu": "Otwórz menu",
+    "close-menu": "Zamknij menu",
+    "share-article": "Udostępnij ten artykuł",
+    "share-email-subject": "Artykuł Denisa Bunchenko",
+    "email": "E-mail",
+    "continue-reading": "Czytaj dalej",
+    "rss": "Kanał RSS",
+    "skip-content": "Przejdź do treści",
+    "primary-navigation": "Główna nawigacja",
+    "back-navigation": "Nawigacja wstecz",
+    "desktop-shortcuts": "Skróty witryny",
+    "ready": "Gotowe"
+  },
+  "meta": {
+    "title": "Denis Bunchenko",
+    "description": "Osobisty blog Denisa Bunchenko.",
+    "og-site-name": "Denis Bunchenko",
+    "social-image-alt": "Karta podglądu osobistego bloga Denisa Bunchenko.",
+    "slug": "Denis Bunchenko",
+    "slogan": "Osobisty blog",
+    "sub-slogan": "Notatki, eksperymenty i rzeczy warte zapamiętania."
+  },
+  "i18n": {
+    "select-language": "Wybierz język",
+    "current-language": "bieżący język",
+    "noi18n": "Brak tłumaczenia"
+  },
+  "ai": {
+    "title": "Zapytaj AI o Denisa",
+    "description": "Skopiuj ten prompt do dowolnego asystenta AI. Kieruje on asystenta do aktualizowanego, czytelnego maszynowo opisu witryny i prosi o oddzielenie faktów od przypuszczeń.",
+    "shortcut": "Zapytaj AI",
+    "prompt-label": "Gotowy prompt",
+    "prompt": "Korzystając z https://denisbunchenko.com/llms.txt jako głównego źródła, opowiedz mi o Denisie Bunchenko i jego pracy. Oddziel potwierdzone fakty od wniosków, wskaż wykorzystane strony i wyraźnie zaznacz, gdy brakuje informacji.",
+    "copy": "Kopiuj prompt",
+    "copied": "Prompt został skopiowany. Wklej go do wybranego asystenta AI.",
+    "copy-error": "Automatyczne kopiowanie było niedostępne. Prompt został zaznaczony do ręcznego skopiowania.",
+    "view-context": "Zobacz kontekst dla AI",
+    "provider-note": "Działa z każdym asystentem, który ma dostęp do publicznych stron internetowych"
+  },
+  "pages": {
+    "404": {
+      "title": "404 - Nie znaleziono pliku",
+      "message": "Tej strony nie ma w notatniku. Być może została przeniesiona albo nigdy nie została zapisana.",
+      "window-title": "Nie znaleziono strony",
+      "path-label": "Żądany adres:",
+      "actions-label": "Opcje powrotu po błędzie",
+      "home-cta": "Wróć na stronę główną",
+      "blog-cta": "Otwórz blog",
+      "status": "Błąd nawigacji"
+    },
+    "home": {
+      "title": "Denis Bunchenko - Osobisty blog",
+      "description": "Osobista strona i trójjęzyczny blog Denisa Bunchenko.",
+      "hero-title": "Denis Bunchenko",
+      "hero-sub-slogan": "Notatki, eksperymenty i rzeczy warte zapamiętania.",
+      "window-title": "Witaj",
+      "intro": "To moja osobista strona — spokojny notatnik otwarty dla wszystkich.",
+      "body": "Piszę o pracy, technologii i wszystkim, co przetrwa drogę od przelotnej myśli do zapisanego pliku.",
+      "blog-cta": "Otwórz blog",
+      "about-cta": "O Denisie",
+      "recent-articles": "Najnowsze artykuły",
+      "view-all": "Zobacz wszystkie"
+    },
+    "about": {
+      "title": "O mnie",
+      "description": "O Denisie Bunchenko i tej osobistej stronie internetowej.",
+      "window-title": "O mnie",
+      "eyebrow": "O mnie",
+      "heading": "Denis Bunchenko",
+      "body-1": "Cześć. Jestem Denis i to jest moje osobiste miejsce w internecie.",
+      "body-2": "Na razie ta strona jest celowo krótka. Więcej szczegółów pojawi się, gdy będzie coś wartościowego do powiedzenia."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Artykuły i notatki Denisa Bunchenko.",
+      "categories-description": "Przeglądaj artykuły Denisa Bunchenko według kategorii.",
+      "category-description": "Artykuły i notatki Denisa Bunchenko w kategorii",
+      "tags-description": "Przeglądaj artykuły Denisa Bunchenko według tematów.",
+      "tag-description": "Artykuły i notatki Denisa Bunchenko oznaczone tagiem"
+    }
+  },
+  "rss": {
+    "title": "Denis Bunchenko | Kanał RSS",
+    "description": "Nowe artykuły Denisa Bunchenko."
+  },
+  "tags-t": {
+    "astro": "Astro",
+    "personal": "Osobiste"
+  },
+  "categories-t": {
+    "notes": "Notatki"
+  }
+}

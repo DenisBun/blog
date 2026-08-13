@@ -1,13 +1,13 @@
 # Denis Bunchenko
 
-The source for [denisbunchenko.com](https://denisbunchenko.com): a statically generated, bilingual personal blog with a quiet, notebook-inspired editorial interface.
+The source for [denisbunchenko.com](https://denisbunchenko.com): a statically generated, trilingual personal blog with a quiet, notebook-inspired editorial interface.
 
 ## Stack
 
 - Astro and TypeScript
 - Tailwind CSS
 - Markdown content collections
-- English and Russian internationalization
+- English, Russian, and Polish internationalization
 - Netlify deployment
 
 ## Commands
@@ -24,7 +24,7 @@ npm test
 
 The production build runs the generated-output SEO audit automatically. `npm run check:seo` can rerun it against the current `dist/` directory, while `npm test` runs all static checks and a complete production build.
 
-Articles live in `src/content/articles/en/` and `src/content/articles/ru/`. Matching filenames connect translated versions for language switching and `hreflang` metadata.
+Articles live in locale folders under `src/content/articles/` (`en`, `ru`, and `pl`). Matching filenames connect translated versions for language switching and `hreflang` metadata.
 
 The project is based on Astro Stardrive and retains its SEO, structured-data, RSS, sitemap, social-preview, accessibility, performance, and `llms.txt` foundations.
 

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "stardriveVersion": "1.4.4",
   "private": true,
-  "description": "The personal website and bilingual blog of Denis Bunchenko",
+  "description": "The personal website and trilingual blog of Denis Bunchenko",
   "engines": {
     "node": "^22.22.3 || ^24.16.0 || >=26.3.0"
   },

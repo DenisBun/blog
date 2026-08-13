@@ -1,6 +1,7 @@
 import type { ThemeConfig } from './types/theme-config.d.ts';
 
 import enStrings from './src/i18n/en.json' with { type: 'json' };
+import plStrings from './src/i18n/pl.json' with { type: 'json' };
 import ruStrings from './src/i18n/ru.json' with { type: 'json' };
 
 export const themeConfig: ThemeConfig = {
@@ -30,14 +31,16 @@ export const themeConfig: ThemeConfig = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'ru'],
+    locales: ['en', 'ru', 'pl'],
     languages: {
       en: 'English',
       ru: 'Русский',
+      pl: 'Polski',
     },
     languageModules: {
       en: enStrings,
       ru: ruStrings,
+      pl: plStrings,
     },
   },
 
@@ -97,7 +100,7 @@ export const themeConfig: ThemeConfig = {
 
   llms: {
     autoGeneration: true,
-    intro: 'Personal website and bilingual blog of Denis Bunchenko, with articles published in English and Russian.',
+    intro: 'Personal website and trilingual blog of Denis Bunchenko, with articles published in English, Russian, and Polish.',
     excludePagesPattern: [],
     includePages: [],
     addArticles: 'all',

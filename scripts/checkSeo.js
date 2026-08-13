@@ -9,6 +9,8 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const distDir = path.join(rootDir, 'dist');
 const site = (process.env.SITE_OVERRIDE || 'https://denisbunchenko.com').replace(/\/+$/, '');
 const expectedRobots = (process.env.ROBOTS || 'index, follow').toLowerCase();
+const defaultLocale = 'en';
+const locales = ['en', 'ru', 'pl'];
 const failures = [];
 
 function assert(condition, message) {
@@ -52,7 +54,8 @@ for (const filePath of fs.existsSync(distDir) ? walkHtml(distDir) : []) {
   const doc = new JSDOM(fs.readFileSync(filePath, 'utf8')).window.document;
   const isError = route === '/404' || route.endsWith('/404');
   const label = route;
-  const expectedLocale = route === '/ru' || route.startsWith('/ru/') ? 'ru' : 'en';
+  const routeLocale = route.match(/^\/([a-z]{2})(?:\/|$)/)?.[1];
+  const expectedLocale = routeLocale && locales.includes(routeLocale) ? routeLocale : defaultLocale;
   const robots = meta(doc, 'meta[name="robots"]');
   const canonicalLinks = [...doc.querySelectorAll('link[rel="canonical"]')];
   const structuredScripts = [...doc.querySelectorAll('script[type="application/ld+json"]')];
@@ -76,10 +79,10 @@ for (const filePath of fs.existsSync(distDir) ? walkHtml(distDir) : []) {
   if (canonical.startsWith(site)) pageCanonicals.add(canonical);
 
   const rssUrl = doc.querySelector('link[rel="alternate"][type="application/rss+xml"]')?.getAttribute('href');
-  const expectedRss = `${site}${expectedLocale === 'ru' ? '/ru' : ''}/rss.xml`;
+  const expectedRss = `${site}${expectedLocale === defaultLocale ? '' : `/${expectedLocale}`}/rss.xml`;
   assert(rssUrl === expectedRss, `${label}: expected localized RSS discovery URL ${expectedRss}.`);
 
-  for (const language of ['en', 'ru', 'x-default']) {
+  for (const language of [...locales, 'x-default']) {
     assert(Boolean(doc.querySelector(`link[rel="alternate"][hreflang="${language}"]`)), `${label}: missing ${language} hreflang.`);
   }
 
@@ -135,10 +138,8 @@ if (fs.existsSync(sitemapPath)) {
   }
 }
 
-for (const [locale, relativePath] of [
-  ['en', 'rss.xml'],
-  ['ru', 'ru/rss.xml'],
-]) {
+for (const locale of locales) {
+  const relativePath = locale === defaultLocale ? 'rss.xml' : `${locale}/rss.xml`;
   const feedPath = path.join(distDir, relativePath);
   assert(fs.existsSync(feedPath), `${relativePath} is missing.`);
   if (!fs.existsSync(feedPath)) continue;

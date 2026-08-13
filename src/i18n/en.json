@@ -6,6 +6,7 @@
     "language": "Language",
     "english": "English",
     "russian": "Русский",
+    "polish": "Polski",
     "categories": "Categories",
     "category": "Category",
     "tags": "Tags",
@@ -77,7 +78,7 @@
     },
     "home": {
       "title": "Denis Bunchenko - Personal Blog",
-      "description": "The personal website and bilingual blog of Denis Bunchenko.",
+      "description": "The personal website and trilingual blog of Denis Bunchenko.",
       "hero-title": "Denis Bunchenko",
       "hero-sub-slogan": "Notes, experiments, and things worth remembering.",
       "window-title": "Welcome",

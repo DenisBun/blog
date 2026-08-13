@@ -25,7 +25,7 @@ tags:
 const website = {
   framework: 'Astro',
   mood: 'open notebook',
-  languages: ['en', 'ru'],
+  languages: ['en', 'ru', 'pl'],
 };
 ```
 

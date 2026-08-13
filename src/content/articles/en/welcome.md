@@ -25,7 +25,7 @@ This post is intentionally simple. Replace it with a real article whenever you a
 const website = {
   framework: 'Astro',
   mood: 'open notebook',
-  languages: ['en', 'ru'],
+  languages: ['en', 'ru', 'pl'],
 };
 ```
 

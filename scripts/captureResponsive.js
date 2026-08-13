@@ -20,6 +20,7 @@ const viewports = [
 const routes = [
   { name: 'home-en', path: '/' },
   { name: 'home-ru', path: '/ru' },
+  { name: 'home-pl', path: '/pl' },
   { name: 'blog', path: '/blog' },
   { name: 'article', path: '/blog/welcome' },
 ];
