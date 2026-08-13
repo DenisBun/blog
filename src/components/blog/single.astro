@@ -68,7 +68,7 @@ const updated = entry.data.updateDate?.toLocaleDateString(locale, { dateStyle: '
   {
     imageFile ? (
       <figure class="article-cover">
-        <Image src={imageFile} alt={entry.data.image?.alt || ''} widths={[640, 960, 1440]} sizes="(min-width: 976px) 900px, 100vw" priority />
+        <Image src={imageFile} alt={entry.data.image?.alt || t('meta.social-image-alt')} widths={[640, 960, 1440]} sizes="(min-width: 976px) 900px, 100vw" priority />
       </figure>
     ) : entry.data.image?.url ? (
       <figure class="article-cover">

@@ -1,5 +1,5 @@
 ---
-import { getCleanLocaleUrl } from "@utils/i18n";
+import { getCleanLocaleUrl, getLocaleUrl, useTranslations } from '@utils/i18n';
 import { themeConfig } from '~/theme.config';
 
 interface Props {
@@ -12,9 +12,12 @@ interface Props {
 }
 
 const { locale, title, description, isError, externalCanonical } = Astro.props as Props;
+const t = useTranslations(locale);
 const robots = Astro.props.robots || (isError ? 'noindex, follow' : themeConfig.robots || 'noindex, nofollow');
 
 const canonical = externalCanonical || getCleanLocaleUrl(Astro.url, locale);
+const rssUrl = getLocaleUrl('rss.xml', locale, true);
+const authorUrl = getLocaleUrl('about', locale, true);
 ---
 
 <script>
@@ -43,8 +46,11 @@ const canonical = externalCanonical || getCleanLocaleUrl(Astro.url, locale);
 <!-- descriptive -->
 <title>{title}</title>
 <meta name="description" content={description} />
+<meta name="author" content={themeConfig.author.name} />
 <meta name="robots" content={robots} />
 <!-- urls -->
 <link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title={t('rss.title')} href={rssUrl} />
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site summary" />
+<link rel="author" href={authorUrl} />
 {!isError ? <link rel="canonical" href={canonical} /> : ''}

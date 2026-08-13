@@ -24,7 +24,7 @@ const t = useTranslations(locale);
 const numberOfPages = Math.ceil(page.total / page.size);
 ---
 
-<Layout {locale} title={t('pages.blog.title')} description={t('pages.blog.description')}>
+<Layout {locale} title={t('pages.blog.title') + (page.currentPage > 1 ? ` | ${t('labels.page')} ${page.currentPage}` : '')} description={t('pages.blog.description') + (page.currentPage > 1 ? ` ${t('labels.page')} ${page.currentPage}.` : '')} schemaType="CollectionPage">
   <Headline text={t('pages.blog.title')} />
   <nav class="blog-tools" aria-label={t('pages.blog.title')}>
     <a href={getLocaleUrl('blog/categories', locale)}>{t('labels.categories')}</a>

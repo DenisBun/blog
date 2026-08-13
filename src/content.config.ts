@@ -19,12 +19,12 @@ const articles = defineCollection({
       i18nSlug: z.record(z.string(), z.string()).optional(),
       externalCanonical: httpUrl.optional(),
       title: z.string(),
-      excerpt: z.string().optional(),
+      excerpt: z.string().min(50).max(160),
       image: z
         .object({
           file: image().optional(),
           url: httpUrl.optional(),
-          alt: z.string().optional(),
+          alt: z.string().min(1),
         })
         .optional(),
       tags: z.array(z.string()).optional(),

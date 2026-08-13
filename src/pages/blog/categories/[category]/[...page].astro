@@ -33,10 +33,12 @@ const locale = themeConfig.i18n.defaultLocale;
 const t = useTranslations(locale);
 const allArticles = page.data as CollectionEntry<'articles'>[];
 const numberofPages = Math.ceil(page.total / page.size);
+const categoryName = t('categories-t.' + category);
+const description = `${t('pages.blog.category-description')} “${categoryName}”.${page.currentPage > 1 ? ` ${t('labels.page')} ${page.currentPage}.` : ''}`;
 ---
 
-<Layout title={t('labels.category') + ': ' + t('categories-t.' + category) + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('blog/categories', locale) } }}>
-  <Headline text={t('labels.category') + ': ' + t('categories-t.' + category)} />
+<Layout {locale} title={t('labels.category') + ': ' + categoryName + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} {description} schemaType="CollectionPage" header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('blog/categories', locale) } }}>
+  <Headline text={t('labels.category') + ': ' + categoryName} />
   <div class="page-note">
     {page.currentPage > 1 ? t('labels.page') + ': ' + page.currentPage : ''}
   </div>

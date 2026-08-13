@@ -8,6 +8,6 @@ const locale = themeConfig.i18n.defaultLocale;
 const t = useTranslations(locale);
 ---
 
-<Layout {locale} title={t('pages.about.title')} description={t('pages.about.description')}>
+<Layout {locale} title={t('pages.about.title')} description={t('pages.about.description')} schemaType="ProfilePage">
   <AboutContent {locale} />
 </Layout>

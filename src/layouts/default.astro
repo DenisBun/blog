@@ -25,7 +25,7 @@ interface Props {
   noi18n?: boolean;
   isHome?: boolean;
   noTitleSlug?: boolean;
-  schemaType?: 'WebPage' | 'FAQPage';
+  schemaType?: 'WebPage' | 'ProfilePage' | 'CollectionPage';
   collection?: CollectionKey;
   contentId?: string;
   noContainer?: boolean;
@@ -35,15 +35,18 @@ const locale = Astro.props.locale || themeConfig.i18n.defaultLocale;
 const t = useTranslations(locale);
 const title = Astro.props.title || t('meta.title');
 const description = Astro.props.description || t('meta.description');
-const { header, isError, noi18n, noTitleSlug, robots, isHome, collection, contentId, noContainer } = Astro.props;
+const { header, isError, noi18n, noTitleSlug, robots, isHome, collection, contentId, noContainer, schemaType = 'WebPage' } = Astro.props;
 const metaTitle = noTitleSlug ? title : `${title} | ${t('meta.slug')}`;
+const personId = `${new URL('/', Astro.site).href}#person`;
 const author = {
+  '@id': personId,
   '@type': themeConfig.author.type,
   name: themeConfig.author.name,
   url: themeConfig.author.url,
   image: themeConfig.author.image ? new URL(themeConfig.author.image, Astro.site).href : undefined,
 };
 const publisher = {
+  '@id': personId,
   '@type': themeConfig.publisher.type,
   name: themeConfig.publisher.name,
   url: themeConfig.publisher.url,
@@ -55,10 +58,10 @@ const publisher = {
 <html lang={locale}>
   <head>
     <HeadBase title={metaTitle} {description} {locale} {robots} {isError} />
-    <HeadHrefLang {locale} {noi18n} {collection} {contentId} />
-    <HeadOgX {locale} title={metaTitle} {description} ogTitle={themeConfig.ogTitle || t('meta.og-site-name')} />
-    {isHome && <WebsiteStructuredData {title} {description} image="/images/structured-preview.png" {author} {publisher} {locale} />}
-    <WebPageStructuredData type="WebPage" {title} {description} image="/images/structured-preview.png" {author} {publisher} {locale} />
+    {!isError && <HeadHrefLang {locale} {noi18n} {collection} {contentId} />}
+    {!isError && <HeadOgX {locale} title={metaTitle} {description} imageAlt={t('meta.social-image-alt')} ogTitle={themeConfig.ogTitle || t('meta.og-site-name')} />}
+    {isHome && locale === themeConfig.i18n.defaultLocale && <WebsiteStructuredData {description} image="/images/structured-preview.png" {author} {publisher} />}
+    {!isError && <WebPageStructuredData type={schemaType} {title} {description} image="/images/structured-preview.png" {author} {publisher} {locale} mainEntity={schemaType === 'ProfilePage' ? author : undefined} />}
   </head>
   <body>
     <div class="site-page">

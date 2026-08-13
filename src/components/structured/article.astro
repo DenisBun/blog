@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { themeConfig } from '~/theme.config';
-import { getCleanLocaleUrl } from "@utils/i18n";
+import { getCleanLocaleUrl, useTranslations } from '@utils/i18n';
 import { toSafeJsonScript } from "@utils/security";
 
 interface Props {
@@ -9,44 +9,63 @@ interface Props {
   description: string;
   articleEntry: CollectionEntry<'articles'>;
   locale?: string;
+  imageUrls?: string[];
 }
 
-const { title, description, articleEntry, locale } = Astro.props as Props;
+const { title, description, articleEntry, locale, imageUrls = [] } = Astro.props as Props;
+const t = useTranslations(locale);
 
 // Destructure articleEntry to get needed fields
-const { publishDate, updateDate, author, image } = articleEntry.data;
-if (image && image.file) {
-  image.url = image.file.src;
-}
+const { publishDate, updateDate, author, categories = [], tags = [], externalCanonical } = articleEntry.data;
 
 const authorName = themeConfig.articles?.defaults?.author?.name ? themeConfig.articles.defaults.author.name : author?.name;
 const authorUrl = themeConfig.articles?.defaults?.author?.url ? themeConfig.articles.defaults.author.url : author?.url;
 
-const pageUrl = getCleanLocaleUrl(Astro.url, locale);
-const imageUrl = image?.url ? new URL(image.url, Astro.site).href : new URL('/images/structured-preview.png', Astro.site).href;
+const pageUrl = externalCanonical || getCleanLocaleUrl(Astro.url, locale);
+const normalizedImages = [...new Set(imageUrls.map((imageUrl) => new URL(imageUrl, Astro.site).href))];
+const homeUrl = new URL('/', Astro.site).href;
+const blogUrl = new URL(locale === themeConfig.i18n.defaultLocale ? '/blog' : `/${locale}/blog`, Astro.site).href;
 
 const structuredData = {
   "@context": "https://schema.org",
   "@id": `${pageUrl}#article`,
-  "@type": "Article",
+  "@type": "BlogPosting",
   headline: title,
   description: description,
   datePublished: publishDate.toISOString(),
-  dateModified: updateDate?.toISOString() ?? undefined,
+  dateModified: (updateDate ?? publishDate).toISOString(),
   url: pageUrl,
-  thumbnailUrl: imageUrl,
-  image: {
-    "@type": "ImageObject",
-    url: imageUrl,
-    caption: image ? image.alt : '',
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": pageUrl,
   },
+  inLanguage: locale,
+  ...(normalizedImages.length > 0 && { image: normalizedImages, thumbnailUrl: normalizedImages[0] }),
+  ...(categories[0] && { articleSection: categories[0] }),
+  ...(tags.length > 0 && { keywords: tags }),
   author: {
+    "@id": `${new URL('/', Astro.site).href}#person`,
     "@type": "Person",
     name: authorName ? authorName : '',
     url: authorUrl ? authorUrl : Astro.site,
   },
   isPartOf: {
     "@id":`${themeConfig.site}/#website`
+  },
+  publisher: {
+    "@id": `${new URL('/', Astro.site).href}#person`,
+    "@type": themeConfig.publisher.type,
+    name: themeConfig.publisher.name,
+    url: themeConfig.publisher.url ?? Astro.site,
+    ...(themeConfig.publisher.image && { image: new URL(themeConfig.publisher.image, Astro.site).href }),
+  },
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: themeConfig.name, item: homeUrl },
+      { "@type": "ListItem", position: 2, name: t('labels.blog'), item: blogUrl },
+      { "@type": "ListItem", position: 3, name: title, item: pageUrl },
+    ],
   },
   "potentialAction": [
     {

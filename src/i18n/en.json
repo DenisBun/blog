@@ -42,6 +42,7 @@
     "title": "Denis Bunchenko",
     "description": "Personal blog of Denis Bunchenko.",
     "og-site-name": "Denis Bunchenko",
+    "social-image-alt": "Denis Bunchenko personal blog preview card.",
     "slug": "Denis Bunchenko",
     "slogan": "Personal blog",
     "sub-slogan": "Notes, experiments, and things worth remembering."
@@ -98,7 +99,11 @@
     },
     "blog": {
       "title": "Blog",
-      "description": "Articles and notes by Denis Bunchenko."
+      "description": "Articles and notes by Denis Bunchenko.",
+      "categories-description": "Browse Denis Bunchenko's articles by category.",
+      "category-description": "Articles and notes by Denis Bunchenko in the category",
+      "tags-description": "Browse Denis Bunchenko's articles by topic.",
+      "tag-description": "Articles and notes by Denis Bunchenko tagged"
     }
   },
   "rss": {

@@ -637,7 +637,7 @@ async function generateLLMFiles() {
   console.log(`\n🎉 llms.txt generation complete.`);
 }
 
-generateLLMFiles().catch((error) => {
+await generateLLMFiles().catch((error) => {
   console.error('❌ Error generating llms.txt:', error);
   process.exit(1);
 });

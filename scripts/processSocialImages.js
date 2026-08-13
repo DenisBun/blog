@@ -57,5 +57,4 @@ const processSocialImages = async () => {
   );
 };
 
-// run
-processSocialImages();
+await processSocialImages();

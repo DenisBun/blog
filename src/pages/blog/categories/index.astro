@@ -18,7 +18,7 @@ const allArticles = await getCollection('articles', ({ id, data }) => {
 const categories = [...new Set(allArticles.map((article) => article.data.categories || []).flat())];
 ---
 
-<Layout title={t('labels.categories')} header={{ button: { text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) } }}>
+<Layout {locale} title={t('labels.categories')} description={t('pages.blog.categories-description')} schemaType="CollectionPage" header={{ button: { text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) } }}>
   <Headline text={t('labels.categories')} />
   <List entries={categories} {locale} type="categories" />
 </Layout>

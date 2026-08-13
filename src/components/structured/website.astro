@@ -1,20 +1,19 @@
 ---
-import { getCleanLocaleUrl } from "@utils/i18n";
 import { toSafeJsonScript } from "@utils/security";
 import { themeConfig } from '~/theme.config';
 
 interface Props {
-  title: string;
   description?: string;
   image?: string;
-  locale?: string;
   author?: {
+    "@id"?: string;
     "@type": "Person" | "Organization";
     name: string;
     url?: string;
     image?: string;
   }
   publisher?: {
+    "@id"?: string;
     "@type": "Person" | "Organization";
     name: string;
     url?: string;
@@ -22,22 +21,23 @@ interface Props {
   }
 }
 
-const { title, description, image, locale } = Astro.props as Props;
+const { description, image } = Astro.props as Props;
 
-const pageUrl = getCleanLocaleUrl(Astro.url, locale);
+const pageUrl = new URL('/', Astro.site).href;
 const imageUrl = image ? new URL(image, Astro.site).href : undefined;
 
-const author = Astro.props.author ? { "@context": "https://schema.org", ...(Astro.props.author) } : null;
+const author = Astro.props.author ?? null;
 const creator = author;
-const publisher = Astro.props.publisher ? { "@context": "https://schema.org", ...(Astro.props.publisher) } : null;
+const publisher = Astro.props.publisher ?? null;
 
 const structuredData = {
   "@context": "https://schema.org",
   "@id": `${themeConfig.site}/#website`,
   "@type": "WebSite",
-  name: title,
-  ...(description && { about: description }),
+  name: themeConfig.name,
+  ...(description && { description }),
   url: pageUrl,
+  inLanguage: themeConfig.i18n.locales,
   ...(imageUrl && { image: imageUrl }),
   author,
   creator,

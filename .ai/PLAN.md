@@ -45,6 +45,7 @@
 - [x] Run the production build and postbuild scripts; verify generated English/Russian routes and technical outputs.
 - [x] Check keyboard navigation, language switching, responsive layout, and missing-translation fallbacks.
 - [x] Review the final diff for accidental deletion of user-owned changes or retained demo references.
+- [x] Re-audit generated bilingual SEO output and add a build-time regression check for metadata, social cards, structured data, sitemap, RSS, and crawl directives.
 
 ## Follow-up enhancements
 

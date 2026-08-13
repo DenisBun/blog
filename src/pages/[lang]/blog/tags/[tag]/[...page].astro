@@ -42,10 +42,12 @@ const t = useTranslations(locale);
 
 const allArticles = page.data as CollectionEntry<'articles'>[];
 const numberofPages = Math.ceil(page.total / page.size);
+const tagName = t('tags-t.' + tag);
+const description = `${t('pages.blog.tag-description')} “${tagName}”.${page.currentPage > 1 ? ` ${t('labels.page')} ${page.currentPage}.` : ''}`;
 ---
 
-<Layout title={t('labels.tag') + ': ' + t('tags-t.' + tag) + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('blog/tags', locale) } }}>
-  <Headline text={t('labels.tag') + ': ' + t('tags-t.' + tag)} />
+<Layout {locale} title={t('labels.tag') + ': ' + tagName + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} {description} schemaType="CollectionPage" header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('blog/tags', locale) } }}>
+  <Headline text={t('labels.tag') + ': ' + tagName} />
   <div class="page-note">
     {page.currentPage > 1 ? t('labels.page') + ': ' + page.currentPage : ''}
   </div>

@@ -26,7 +26,7 @@ const allArticles = await getCollection('articles', ({ id, data }) => {
 const tags = [...new Set(allArticles.map((article) => article.data.tags || []).flat())];
 ---
 
-<Layout title={t('labels.tags')} header={{ button: { text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) } }}>
+<Layout {locale} title={t('labels.tags')} description={t('pages.blog.tags-description')} schemaType="CollectionPage" header={{ button: { text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) } }}>
   <Headline text={t('labels.tags')} />
   <List entries={tags} {locale} type="tags" />
 </Layout>

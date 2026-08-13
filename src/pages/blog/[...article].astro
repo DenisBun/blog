@@ -6,6 +6,7 @@ import type { CollectionEntry } from "astro:content";
 import type { ImageMetadata } from 'astro';
 import { themeConfig } from '~/theme.config';
 import { sortArticleList, getAdjacentArticles } from "@utils/blog";
+import { getArticleSocialImages } from '@utils/social-images';
 import FallbackImage from "@images/content/articles-fallback.jpg";
 
 export async function getStaticPaths() {
@@ -39,10 +40,13 @@ const currentIndex = allArticles.findIndex(article => article.id === entry.id);
 // Get adjacent articles with fallback logic
 const { prev, next } = getAdjacentArticles(currentIndex, allArticles) ?? { prev: undefined, next: undefined };
 
-// Get article image url
-const imgUrl = entry.data.image?.file?.src || entry.data.image?.url;
+// Generate platform-sized social images for local article artwork. Remote
+// images stay untouched because their dimensions and build availability vary.
+const socialImages = await getArticleSocialImages(entry.data.image?.file);
+const imgUrl = socialImages.openGraph || entry.data.image?.url;
+const xImgUrl = socialImages.x || entry.data.image?.url;
 ---
 
-<Layout title={entry.data.title} description={entry.data.excerpt} {imgUrl} {locale}>
+<Layout title={entry.data.title} description={entry.data.excerpt} {imgUrl} {xImgUrl} imageAlt={entry.data.image?.alt} {locale}>
   <Single {entry} {locale} {prev} {next} {imageFile} />
 </Layout>

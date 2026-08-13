@@ -18,6 +18,7 @@
     "check:type": "tsc --noEmit",
     "check:eslint": "eslint .",
     "check:prettier": "prettier --check .",
+    "check:seo": "node scripts/checkSeo.js",
     "check:visual": "node scripts/captureResponsive.js",
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
