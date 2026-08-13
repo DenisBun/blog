@@ -15,7 +15,7 @@
 - [x] Use “Denis Bunchenko” as the site name and “Personal blog of Denis Bunchenko” as the initial fallback description.
 - [x] Use `https://denisbunchenko.com` as the canonical production URL.
 - [x] Use Denis Bunchenko as the public author and publisher, linked to the canonical home page.
-- [x] Use Patrika's warm paper palette, dot grid, serif/mono typography, and fixed light theme.
+- [x] Use Patrika's warm paper palette and dot grid with modern sans/mono typography and a fixed light theme.
 - [x] Keep the complete blog feature set, including categories, tags, social sharing, reading time, table of contents, pagination, RSS, and article metadata.
 - [x] Keep one matching English/Russian example-post pair and remove the other demo posts.
 - [x] Create an editorial monogram favicon/logo that matches the site.
@@ -49,6 +49,7 @@
 
 ## Follow-up enhancements
 
+- [x] Modernize the primary typography with Inter while retaining DM Mono for metadata and code.
 - [x] Restore a localized, provider-neutral “Ask AI about Denis” section backed by `/llms.txt`, without restoring the larger WebMCP demo.
 - [x] Restyle the English and Russian 404 routes as quiet editorial error pages with clear recovery actions and Netlify fallbacks.
 - [x] Harden supported Node versions, preview metadata, language switching, author overrides, taxonomy slugs, external links, dependencies, and continuous integration after the repository audit.

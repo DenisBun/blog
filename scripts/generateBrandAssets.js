@@ -24,7 +24,7 @@ function monogramSvg(size, background = 'transparent') {
   return Buffer.from(`
     <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
       <rect width="${size}" height="${size}" rx="${Math.round(size * 0.08)}" fill="${background}"/>
-      <text x="50%" y="48%" fill="${ink}" font-family="Georgia, serif" font-size="${fontSize}" font-style="italic" text-anchor="middle" dominant-baseline="middle">${glyph}</text>
+      <text x="50%" y="48%" fill="${ink}" font-family="Arial, Helvetica, sans-serif" font-size="${fontSize}" font-weight="600" text-anchor="middle" dominant-baseline="middle">${glyph}</text>
       <line x1="${Math.round(size * 0.25)}" y1="${Math.round(size * 0.76)}" x2="${Math.round(size * 0.75)}" y2="${Math.round(size * 0.76)}" stroke="${clay}" stroke-width="${lineWidth}"/>
     </svg>
   `);
@@ -76,8 +76,8 @@ function socialCardSvg(width, height) {
       <rect width="${width}" height="${height}" fill="url(#dots)"/>
       <line x1="${margin}" y1="${margin}" x2="${width - margin}" y2="${margin}" stroke="${border}"/>
       <text x="${margin}" y="${margin + metaSize * 2.6}" fill="${muted}" font-family="monospace" font-size="${metaSize}" letter-spacing="${Math.round(metaSize * 0.16)}">PERSONAL BLOG · EN / RU</text>
-      <text x="${margin}" y="${Math.round(height * 0.5)}" fill="${ink}" font-family="Georgia, serif" font-size="${titleSize}" font-style="italic">Denis Bunchenko</text>
-      <text x="${margin}" y="${Math.round(height * 0.61)}" fill="${muted}" font-family="Georgia, serif" font-size="${subtitleSize}" font-style="italic">Notes, experiments, and things worth remembering.</text>
+      <text x="${margin}" y="${Math.round(height * 0.5)}" fill="${ink}" font-family="Arial, Helvetica, sans-serif" font-size="${titleSize}" font-weight="600">Denis Bunchenko</text>
+      <text x="${margin}" y="${Math.round(height * 0.61)}" fill="${muted}" font-family="Arial, Helvetica, sans-serif" font-size="${subtitleSize}">Notes, experiments, and things worth remembering.</text>
       <line x1="${margin}" y1="${height - margin}" x2="${width - margin}" y2="${height - margin}" stroke="${border}"/>
       <text x="${margin}" y="${height - margin - metaSize * 1.3}" fill="${muted}" font-family="monospace" font-size="${metaSize}">DENISBUNCHENKO.COM</text>
       <line x1="${width - margin - titleSize * 1.4}" y1="${height - margin - metaSize * 1.5}" x2="${width - margin}" y2="${height - margin - metaSize * 1.5}" stroke="${clay}" stroke-width="${Math.max(2, Math.round(width / 500))}"/>

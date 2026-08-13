@@ -1,6 +1,6 @@
 .markdown-content {
   max-width: 68ch;
-  font-family: var(--font-serif, Literata, Georgia, serif);
+  font-family: var(--font-sans, sans-serif);
   font-size: 1.04rem;
   line-height: 1.82;
 }
@@ -18,8 +18,8 @@
 .markdown-content h4 {
   margin-top: 2.4em;
   margin-bottom: 0.75em;
-  font-family: var(--font-serif, Literata, Georgia, serif);
-  font-weight: 400;
+  font-family: var(--font-sans, sans-serif);
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
@@ -29,7 +29,6 @@
 
 .markdown-content h3 {
   font-size: 1.35rem;
-  font-style: italic;
 }
 
 .markdown-content h4 {
