@@ -283,11 +283,6 @@ textarea {
   box-shadow: 0 12px 30px color-mix(in srgb, var(--base-950) 12%, transparent);
 }
 
-.language-switcher-footer .language-switcher-menu {
-  top: auto;
-  bottom: calc(100% + 8px);
-}
-
 .language-switcher-menu li {
   list-style: none;
 }

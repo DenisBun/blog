@@ -65,7 +65,7 @@ const canonicalUrl = articleEntry.data.externalCanonical || getCleanLocaleUrl(As
     <div class="site-page">
       <Header {locale} button={{ text: t('labels.back-all-articles'), href: getLocaleUrl('blog', locale) }} {noi18n} collection="articles" contentId={articleEntry.id} />
       <main id="main-content"><div class="site-shell"><slot /></div></main>
-      <Footer {noi18n} collection="articles" contentId={articleEntry.id} {locale} />
+      <Footer {locale} />
     </div>
   </body>
 </html>
