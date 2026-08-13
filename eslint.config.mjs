@@ -9,7 +9,7 @@ import astroPlugin from 'eslint-plugin-astro';
 export default [
   // general ignores
   {
-    ignores: ['**/*.d.ts', '**/*.min.*', 'dist/', 'demo/', 'scripts/', 'node_modules/', '.github/', '.ai/', '.astro/'],
+    ignores: ['**/*.d.ts', '**/*.min.*', 'dist/', 'demo/', 'node_modules/', '.github/', '.ai/', '.astro/'],
   },
   // general rules
   js.configs.recommended,
@@ -71,6 +71,24 @@ export default [
     files: ['**/*.{js,mjs,cjs}'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
+    files: ['scripts/**/*.{js,mjs,cjs}'],
+    rules: {
+      // The LLM generator intentionally parses trusted, repository-local
+      // configuration and Markdown with dynamic patterns.
+      'regexp/negation': 'off',
+      'regexp/no-super-linear-backtracking': 'off',
+      'regexp/optimal-quantifier-concatenation': 'off',
+      'regexp/prefer-w': 'off',
+      'regexp/use-ignore-case': 'off',
+      // Script paths, keys, and patterns come only from this repository's
+      // checked-in configuration and generated output directories.
+      'security/detect-non-literal-fs-filename': 'off',
+      'security/detect-non-literal-regexp': 'off',
+      'security/detect-object-injection': 'off',
+      'security/detect-unsafe-regex': 'off',
     },
   },
 ];

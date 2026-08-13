@@ -5,7 +5,7 @@
   "private": true,
   "description": "The personal website and bilingual blog of Denis Bunchenko",
   "engines": {
-    "node": ">=22.22.3"
+    "node": "^22.22.3 || ^24.16.0 || >=26.3.0"
   },
   "scripts": {
     "dev": "astro dev",
@@ -23,7 +23,7 @@
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
-    "test": "npm run check:astro"
+    "test": "npm run check && npm run build"
   },
   "keywords": [
     "astro",

@@ -12,14 +12,17 @@ The source for [denisbunchenko.com](https://denisbunchenko.com): a statically ge
 
 ## Commands
 
+Use the Node.js version pinned in `.nvmrc` (`nvm use` when using nvm).
+
 ```sh
 npm run dev
 npm run check
 npm run build
 npm run check:seo
+npm test
 ```
 
-The production build runs the generated-output SEO audit automatically. `npm run check:seo` can rerun it against the current `dist/` directory.
+The production build runs the generated-output SEO audit automatically. `npm run check:seo` can rerun it against the current `dist/` directory, while `npm test` runs all static checks and a complete production build.
 
 Articles live in `src/content/articles/en/` and `src/content/articles/ru/`. Matching filenames connect translated versions for language switching and `hreflang` metadata.
 

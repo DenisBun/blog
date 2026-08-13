@@ -7,12 +7,11 @@
 //   - the available languages (linked to their localized home page)
 //   - an optional intro quote (from `theme.config.ts -> llms.intro`)
 //   - pages   : title + meta description + URL
-//   - FAQ     : question + full markdown answer
 //   - articles: title + excerpt + URL
 //
 // Inclusion is controlled via the `llms` block in `theme.config.ts`:
 //   - excludePagesPattern, includePages (glob patterns / explicit URLs)
-//   - addArticles, addFAQ ("none" | "all" | "selected")
+//   - addArticles ("none" | "all" | "selected")
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -55,8 +54,6 @@ function loadThemeConfig() {
       excludePagesPattern: [],
       includePages: [],
       addArticles: 'none',
-      addEvents: 'none',
-      addFAQ: 'none',
     },
   };
 
@@ -68,9 +65,9 @@ function loadThemeConfig() {
     const themeConfigContent = fs.readFileSync(path.join(rootDir, 'theme.config.ts'), 'utf-8').replace(/^\s*\/\/.*$/gm, '');
 
     // site URL
-    const siteMatch = themeConfigContent.match(/site:\s*(?:import\.meta\.env\.[A-Z_]+\s*\|\|\s*)?['"]([^'"]+)['"]/);
+    const siteMatch = themeConfigContent.match(/site:\s*(?:import\.meta\.env\??\.[A-Z_]+\s*\|\|\s*)?['"]([^'"]+)['"]/);
     if (siteMatch) {
-      config.site = siteMatch[1].replace(/\/+$/, '');
+      config.site = (process.env.SITE_OVERRIDE || siteMatch[1]).replace(/\/+$/, '');
       try {
         config.hostname = new URL(config.site).hostname;
       } catch {
@@ -144,18 +141,6 @@ function loadThemeConfig() {
       if (addArticlesMatch) {
         const v = (addArticlesMatch[1] || addArticlesMatch[2] || '').toLowerCase();
         if (['none', 'all', 'selected'].includes(v)) config.llms.addArticles = v;
-      }
-
-      const addFAQMatch = llmsBlock.match(/addFAQ:\s*(?:LlmsContentInclusion\.([A-Za-z]+)|['"]([A-Za-z]+)['"])/);
-      if (addFAQMatch) {
-        const v = (addFAQMatch[1] || addFAQMatch[2] || '').toLowerCase();
-        if (['none', 'all', 'selected'].includes(v)) config.llms.addFAQ = v;
-      }
-
-      const addEventsMatch = llmsBlock.match(/addEvents:\s*(?:LlmsContentInclusion\.([A-Za-z]+)|['"]([A-Za-z]+)['"])/);
-      if (addEventsMatch) {
-        const v = (addEventsMatch[1] || addEventsMatch[2] || '').toLowerCase();
-        if (['none', 'all', 'selected'].includes(v)) config.llms.addEvents = v;
       }
     }
   } catch (error) {
@@ -321,7 +306,7 @@ function isUnderCollection(urlPath, segments) {
 }
 
 // ---------------------------------------------------------------------------
-// Collection discovery (articles + FAQ)
+// Collection discovery (articles)
 // ---------------------------------------------------------------------------
 
 function parseFrontmatter(content) {
@@ -400,12 +385,6 @@ function articleUrlPath(item, defaultLocale, prefixDefaultLocale) {
   return usePrefix ? `/${item.locale}/blog/${slug}` : `/blog/${slug}`;
 }
 
-function eventUrlPath(item, defaultLocale, prefixDefaultLocale) {
-  const slug = collectionSlug(item);
-  const usePrefix = item.locale !== defaultLocale || prefixDefaultLocale;
-  return usePrefix ? `/${item.locale}/events/detail/${slug}` : `/events/detail/${slug}`;
-}
-
 /**
  * Resolve a collection's overview page (e.g. `/blog`, `/integration`) for the
  * default locale. Returns `{ url, title, description }` only if the overview was
@@ -465,9 +444,7 @@ async function generateLLMFiles() {
 
   // Discover collections
   const articleItems = scanCollectionDir(path.join(contentDir, 'articles'), defaultLocale);
-  const faqItems = scanCollectionDir(path.join(contentDir, 'faq-answers'), defaultLocale);
-  const eventItems = scanCollectionDir(path.join(contentDir, 'events'), defaultLocale);
-  console.log(`📚 Found ${articleItems.length} article(s), ${eventItems.length} event(s) and ${faqItems.length} FAQ entry/entries`);
+  console.log(`📚 Found ${articleItems.length} article(s)`);
 
   // A single llms.txt is generated, using the default-locale content. The
   // available-languages list (below) lets an LLM point users to the right
@@ -513,12 +490,12 @@ async function generateLLMFiles() {
   out += `\n`;
 
   // ---- Pages ----
-  const collectionSegments = ['blog', 'events', 'faq', 'faq-answers'];
+  const collectionSegments = ['blog'];
   const langPages = distPages
     .filter((p) => p.language === lang)
     .filter((p) => {
-      // Skip pages that belong to the article/event/FAQ collections - those are
-      // handled separately below.
+      // Skip pages that belong to the article collection, which is handled
+      // separately below.
       if (isUnderCollection(p.urlPath, collectionSegments)) return false;
 
       const explicitlyIncluded = llms.includePages.includes(p.urlPath);
@@ -549,27 +526,6 @@ async function generateLLMFiles() {
     out += `\n`;
   }
 
-  // ---- FAQ ----
-  const selectedFaq = selectCollectionItems(
-    faqItems,
-    llms.addFAQ,
-    lang,
-    llms.includePages,
-    // FAQ entries don't get dedicated URLs in this template, so the
-    // includePages override matches against a synthetic path.
-    (it) => `/faq#${it.slug}`,
-  );
-  if (selectedFaq.length > 0) {
-    out += `## FAQ\n\n`;
-    for (const it of selectedFaq) {
-      const question = it.data.question || it.slug;
-      const url = `${site}/faq#${it.slug}`;
-      const answer = it.body ? `: ${it.body.replace(/\s+/g, ' ').trim()}` : '';
-      out += `- [${question}](${url})${answer}\n`;
-    }
-    out += `\n`;
-  }
-
   // ---- Articles ----
   // When the `articles` collection is rendered on-demand, no static article
   // pages exist in /dist. Rather than listing items we cannot reliably link
@@ -591,33 +547,6 @@ async function generateLLMFiles() {
         const excerpt = it.data.excerpt || '';
         const url = `${site}${articleUrlPath(it, defaultLocale, prefixDefaultLocale)}`;
         const details = excerpt ? `: ${excerpt}` : '';
-        out += `- [${title}](${url})${details}\n`;
-      }
-      out += `\n`;
-    }
-  }
-
-  // ---- Events ----
-  // Mirrors the Articles logic: when the `events` collection is rendered
-  // on-demand, no static event pages exist in /dist, so we point agents at the
-  // /events overview instead of listing items we cannot reliably link to.
-  const eventsOnDemand = config.onDemandRenderedCollections.includes('events');
-  if (eventsOnDemand && llms.addEvents !== 'none') {
-    const entry = resolveOverviewEntryPoint('events', defaultLocale, prefixDefaultLocale, site, llms.excludePagesPattern);
-    if (entry) {
-      out += `## Events\n\n`;
-      out += `- [${entry.title}](${entry.url})${entry.description ? `: ${entry.description}` : ''}\n`;
-      out += `  This collection is rendered on-demand. Use this overview page as the entry point to discover all events.\n\n`;
-    }
-  } else {
-    const selectedEvents = selectCollectionItems(eventItems, llms.addEvents, lang, llms.includePages, (it) => eventUrlPath(it, defaultLocale, prefixDefaultLocale));
-    if (selectedEvents.length > 0) {
-      out += `## Events\n\n`;
-      for (const it of selectedEvents) {
-        const title = it.data.title || it.slug;
-        const description = it.data.description || '';
-        const url = `${site}${eventUrlPath(it, defaultLocale, prefixDefaultLocale)}`;
-        const details = description ? `: ${description}` : '';
         out += `- [${title}](${url})${details}\n`;
       }
       out += `\n`;

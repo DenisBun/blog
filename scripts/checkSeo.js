@@ -7,7 +7,8 @@ import { JSDOM } from 'jsdom';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const distDir = path.join(rootDir, 'dist');
-const site = 'https://denisbunchenko.com';
+const site = (process.env.SITE_OVERRIDE || 'https://denisbunchenko.com').replace(/\/+$/, '');
+const expectedRobots = (process.env.ROBOTS || 'index, follow').toLowerCase();
 const failures = [];
 
 function assert(condition, message) {
@@ -44,9 +45,9 @@ function normalizeUrl(urlValue) {
 
 assert(fs.existsSync(distDir), 'dist/ is missing; run the production build before the SEO audit.');
 
-const indexableCanonicals = new Set();
+const pageCanonicals = new Set();
 
-for (const filePath of walkHtml(distDir)) {
+for (const filePath of fs.existsSync(distDir) ? walkHtml(distDir) : []) {
   const route = routeFromFile(filePath);
   const doc = new JSDOM(fs.readFileSync(filePath, 'utf8')).window.document;
   const isError = route === '/404' || route.endsWith('/404');
@@ -67,12 +68,12 @@ for (const filePath of walkHtml(distDir)) {
     continue;
   }
 
-  assert(!robots.includes('noindex'), `${label}: indexable page unexpectedly contains noindex.`);
+  assert(robots.toLowerCase() === expectedRobots, `${label}: expected robots directive “${expectedRobots}”.`);
   assert(canonicalLinks.length === 1, `${label}: requires exactly one canonical URL.`);
 
   const canonical = canonicalLinks[0]?.getAttribute('href') ?? '';
-  assert(canonical.startsWith(`${site}/`) || canonical === `${site}/`, `${label}: canonical must be an absolute production URL.`);
-  if (canonical.startsWith(site)) indexableCanonicals.add(canonical);
+  assert(canonical.startsWith(`${site}/`) || canonical === `${site}/`, `${label}: canonical must use the configured site URL.`);
+  if (canonical.startsWith(site)) pageCanonicals.add(canonical);
 
   const rssUrl = doc.querySelector('link[rel="alternate"][type="application/rss+xml"]')?.getAttribute('href');
   const expectedRss = `${site}${expectedLocale === 'ru' ? '/ru' : ''}/rss.xml`;
@@ -129,7 +130,7 @@ if (fs.existsSync(sitemapPath)) {
   const sitemap = fs.readFileSync(sitemapPath, 'utf8');
   const sitemapUrls = new Set([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => normalizeUrl(match[1])));
   assert(![...sitemapUrls].some((url) => url.endsWith('/404')), 'The sitemap must not contain 404 routes.');
-  for (const canonical of indexableCanonicals) {
+  for (const canonical of pageCanonicals) {
     assert(sitemapUrls.has(canonical), `Sitemap is missing canonical URL ${canonical}.`);
   }
 }
@@ -157,4 +158,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`✅ SEO audit passed for ${indexableCanonicals.size} indexable pages.`);
+console.log(`✅ SEO audit passed for ${pageCanonicals.size} pages.`);

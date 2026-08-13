@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { themeConfig } from '~/theme.config';
 import { getCleanLocaleUrl, useTranslations } from '@utils/i18n';
 import { toSafeJsonScript } from "@utils/security";
+import { resolveArticleAuthor } from '@utils/article-author';
 
 interface Props {
   title: string;
@@ -18,13 +19,13 @@ const t = useTranslations(locale);
 // Destructure articleEntry to get needed fields
 const { publishDate, updateDate, author, categories = [], tags = [], externalCanonical } = articleEntry.data;
 
-const authorName = themeConfig.articles?.defaults?.author?.name ? themeConfig.articles.defaults.author.name : author?.name;
-const authorUrl = themeConfig.articles?.defaults?.author?.url ? themeConfig.articles.defaults.author.url : author?.url;
+const { name: authorName, url: authorUrl } = resolveArticleAuthor(author, themeConfig.articles?.defaults?.author) ?? {};
 
 const pageUrl = externalCanonical || getCleanLocaleUrl(Astro.url, locale);
 const normalizedImages = [...new Set(imageUrls.map((imageUrl) => new URL(imageUrl, Astro.site).href))];
 const homeUrl = new URL('/', Astro.site).href;
 const blogUrl = new URL(locale === themeConfig.i18n.defaultLocale ? '/blog' : `/${locale}/blog`, Astro.site).href;
+const authorId = author ? (authorUrl ? `${authorUrl.replace(/\/$/, '')}#person` : `${pageUrl}#author`) : `${homeUrl}#person`;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -44,10 +45,10 @@ const structuredData = {
   ...(categories[0] && { articleSection: categories[0] }),
   ...(tags.length > 0 && { keywords: tags }),
   author: {
-    "@id": `${new URL('/', Astro.site).href}#person`,
+    "@id": authorId,
     "@type": "Person",
-    name: authorName ? authorName : '',
-    url: authorUrl ? authorUrl : Astro.site,
+    name: authorName ?? '',
+    ...(authorUrl && { url: authorUrl }),
   },
   isPartOf: {
     "@id":`${themeConfig.site}/#website`

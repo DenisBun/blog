@@ -101,7 +101,6 @@ export const themeConfig: ThemeConfig = {
     excludePagesPattern: [],
     includePages: [],
     addArticles: 'all',
-    addEvents: 'none',
   },
 
   askAiTrigger: 'Using https://denisbunchenko.com/llms.txt as the primary source, tell me about Denis Bunchenko and his work. Distinguish confirmed facts from inferences, cite the pages you used, and clearly say when information is missing.',

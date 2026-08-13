@@ -51,3 +51,4 @@
 
 - [x] Restore a localized, provider-neutral “Ask AI about Denis” section backed by `/llms.txt`, without restoring the larger WebMCP demo.
 - [x] Restyle the English and Russian 404 routes as quiet editorial error pages with clear recovery actions and Netlify fallbacks.
+- [x] Harden supported Node versions, preview metadata, language switching, author overrides, taxonomy slugs, external links, dependencies, and continuous integration after the repository audit.

@@ -24,7 +24,7 @@ const links = await Promise.all(
     enabled: hasTranslation(code),
     href: collection && contentId
       ? await getLocaleUrlWithContent(contentId, collection, code, false, basePath)
-      : getCleanLocaleUrl(Astro.url, locale, code),
+      : getCleanLocaleUrl(Astro.url, locale, code, false),
   })),
 );
 ---

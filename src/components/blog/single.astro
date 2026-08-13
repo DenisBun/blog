@@ -8,6 +8,7 @@ import ListItem from '@components/blog/list-item.astro';
 import SocialShare from '@components/blog/social-share.astro';
 import TableOfContents from '@components/blog/table-of-contents.astro';
 import { getCleanLocaleUrl, useTranslations } from '@utils/i18n';
+import { resolveArticleAuthor } from '@utils/article-author';
 import { getReadingTime } from '@utils/reading-time';
 import { themeConfig } from '~/theme.config';
 
@@ -25,8 +26,7 @@ const { Content, headings } = await render(entry);
 const tocDepth = entry.data.tocDepth ?? themeConfig.articles?.tocMaxDepth ?? 3;
 const reducedHeadings = headings.filter(({ depth }) => depth <= tocDepth);
 const articleUrl = getCleanLocaleUrl(Astro.url, locale);
-const authorName = themeConfig.articles?.defaults?.author?.name || entry.data.author?.name;
-const authorUrl = themeConfig.articles?.defaults?.author?.url || entry.data.author?.url;
+const { name: authorName, url: authorUrl } = resolveArticleAuthor(entry.data.author, themeConfig.articles?.defaults?.author) ?? {};
 const published = entry.data.publishDate.toLocaleDateString(locale, { dateStyle: 'long' });
 const updated = entry.data.updateDate?.toLocaleDateString(locale, { dateStyle: 'long' });
 ---

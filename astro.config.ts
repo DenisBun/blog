@@ -44,7 +44,7 @@ const svgoConfig: Config = {
 };
 
 export default defineConfig({
-  site: themeConfig.site,
+  site: process.env.SITE_OVERRIDE || themeConfig.site,
   output: 'static',
   trailingSlash: 'never',
   build: { format: 'file' },

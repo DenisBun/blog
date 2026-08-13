@@ -7,6 +7,7 @@ import type { CollectionEntry } from "astro:content";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
 import { sortArticleList } from "@utils/blog";
+import { slugifyTaxonomy } from '@utils/taxonomy';
 import { getCollection } from 'astro:content';
 import type { PaginateFunction } from 'astro';
 
@@ -21,7 +22,7 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
   return uniqueTags.flatMap(tag => {
     const localeArticles = allArticles.filter(article => article.data.tags?.includes(tag));
     return paginate(localeArticles, {
-      params: { tag: tag.toLowerCase().replace(/\s/g, '-') },
+      params: { tag: slugifyTaxonomy(tag) },
       pageSize: themeConfig.articles?.entriesPerPage || 10
     });
   });

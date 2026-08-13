@@ -1,5 +1,6 @@
 ---
 import { getLocaleUrl, useTranslations } from '@utils/i18n';
+import { slugifyTaxonomy } from '@utils/taxonomy';
 
 interface Props {
   entries?: (string | undefined)[];
@@ -16,7 +17,7 @@ const t = useTranslations(locale);
   {
     entries?.length ? (
       entries.map((entry) => {
-        const slug = entry?.toLowerCase().replace(/\s/g, '-');
+        const slug = entry ? slugifyTaxonomy(entry) : '';
         return (
           <a class="taxonomy-link" href={getLocaleUrl(`blog/${type}/${slug}`, locale)}>
             {type === 'tags' ? '#' : ''}

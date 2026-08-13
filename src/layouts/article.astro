@@ -10,6 +10,7 @@ import ArticleStructuredData from '@components/structured/article.astro';
 import { getEntry } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { getCleanLocaleUrl, getLocaleUrl, useTranslations } from '@utils/i18n';
+import { resolveArticleAuthor } from '@utils/article-author';
 import { themeConfig } from '~/theme.config';
 
 interface Props {
@@ -33,7 +34,7 @@ const articleEntry = (await getEntry('articles', `${locale}/${String(Astro.param
 const imageUrl = imgUrl ? new URL(imgUrl, Astro.site).href : undefined;
 const xImageUrl = xImgUrl ? new URL(xImgUrl, Astro.site).href : undefined;
 const structuredImageUrls = [imageUrl ?? new URL('/images/og.png', Astro.site).href, xImageUrl ?? new URL('/images/x.png', Astro.site).href];
-const authorUrl = themeConfig.articles?.defaults?.author?.url || articleEntry.data.author?.url;
+const authorUrl = resolveArticleAuthor(articleEntry.data.author, themeConfig.articles?.defaults?.author)?.url;
 const canonicalUrl = articleEntry.data.externalCanonical || getCleanLocaleUrl(Astro.url, locale);
 ---
 

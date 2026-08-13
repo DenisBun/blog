@@ -295,32 +295,9 @@ export interface ThemeConfig {
    * rendered eagerly during sync — rendering happens on demand when a page needs it. This lowers memory usage
    * during sync for large collections at the cost of not caching rendered HTML across builds.
    *
-   * Example: ['articles', 'integration_options', 'events'] - this would render all articles, integration options, and events (all possible collections in the demo) on-demand instead of prerendering them.
+   * Example: ['articles'] renders article detail pages on demand instead of prerendering them.
    */
   onDemandRenderedCollections?: CollectionKey[];
-
-  /**
-   * Load events from Add to Calendar PRO via API instead of the local content collection.
-   * This allows for real-time updates of events without touching the code or rebuilding the site, but requires an active Add to Calendar PRO subscription and API key (Read scope).
-   * The API key needs to be set in the environment variable `ADD_TO_CALENDAR_PRO_API_KEY` and the `dynamicEvents` property needs to be set to `true`.
-   *
-   * Mind that this will exclude the events from the sitemap since the sitemap only updates on rebuild; but this is usually neglectable.
-   *
-   * IMPORTANT: Recurring events are currently not supported, even if Add to Calendar PRO supports them. If you have recurring events, please create separate events for each occurrence instead.
-   * This would be also a TODO to optimize later.
-   */
-  dynamicEvents?: {
-    pullFromAddToCalendarPro?: boolean;
-    /** If you want to only show some events, filter */
-    filterBy?: {
-      /** from a specific date on, set the UTC ISO datetime (or "now" to use the current date and time) here */
-      from?: string;
-      /** until a specific date, set the UTC ISO datetime (or "now" to use the current date and time) here */
-      to?: string;
-      /** from a specific group, add the group's Prokey here */
-      group?: string;
-    };
-  };
 
   /**
    * Optional configuration for llms.txt file generation.
@@ -328,7 +305,7 @@ export interface ThemeConfig {
   llms?: {
     /**
      * When enabled (default: false), the build process will generate an llms.txt file at the site root,
-     * including content based on the `addArticles`, `addEvents`, and `addFAQ` settings.
+     * including article content based on the `addArticles` setting.
      */
     autoGeneration?: boolean;
 
@@ -339,8 +316,8 @@ export interface ThemeConfig {
      * Glob patterns for pages to exclude from llms.txt generation when `autoGeneration` is enabled.
      *
      * Patterns are matched against page URLs (e.g. "/blog/my-article"), not file paths.
-     * Content collections are not included by default in order to not blow up the llms.txt with potentially hundreds of articles, events, or FAQ entries.
-     * You can include specific articles, events, or FAQ entries via the `addArticles`, `addEvents`, and `addFAQ` settings, and further fine-tune inclusion/exclusion with the `includePages` setting.
+     * Articles are not included by default to avoid making llms.txt unnecessarily large.
+     * Use `addArticles` and `includePages` to control article inclusion.
      * Same applies for pages with robots set to "noindex" - they are excluded by default, but can be included via `includePages` if needed.
      *
      * @example ["/integration/**", "/integration/"] // excludes all pages under /integration, including the main /integration page
@@ -365,27 +342,7 @@ export interface ThemeConfig {
      *
      * If a path is added to `includePages`, it will be included regardless of this setting, so you can still include specific articles even if you set this to `none`.
      */
-    addArticles?: string;
-    /**
-     * Determines which FAQ entries are included in llms.txt when `autoGeneration` is enabled.
-     *
-     * - `none`: No FAQ entries are included. Default.
-     * - `all`: All FAQ entries are included, except those matching `excludePagesPattern`.
-     * - `selected`: Only FAQ entries with frontmatter property `llmsTxt: true` are included.
-     *
-     * If a path is added to `includePages`, it will be included regardless of this setting, so you can still include specific FAQ entries even if you set this to `none`.
-     */
-    addFAQ?: string;
-    /**
-     * Determine which Events are included in llms.txt when `autoGeneration` is enabled.
-     *
-     * - `none`: No Events are included. Default.
-     * - `all`: All Events are included, except those matching `excludePagesPattern`.
-     * - `selected`: Only Events with frontmatter property `llmsTxt: true` are included.
-     *
-     * If a path is added to `includePages`, it will be included regardless of this setting, so you can still include specific Events even if you set this to `none`.
-     */
-    addEvents?: string;
+    addArticles?: 'none' | 'all' | 'selected';
   };
 
   /**

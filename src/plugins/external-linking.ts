@@ -38,13 +38,20 @@ export const externalLinking: RehypePlugin = (options: ExternalLinkingOptions) =
 const isLink = (element: Element) => element.tagName == 'a' && element.properties && 'href' in element.properties;
 
 const isExternal = (url: string, domain: string) => {
-  return url.startsWith('http') && !url.includes(domain);
+  try {
+    const siteUrl = new URL(domain);
+    const targetUrl = new URL(url, siteUrl);
+    return ['http:', 'https:'].includes(targetUrl.protocol) && targetUrl.origin !== siteUrl.origin;
+  } catch {
+    return false;
+  }
 };
 
 const isImage = (element: Element) => element.tagName == 'img' && element.properties && 'src' in element.properties;
 
 const setExternalLink = (element: Element) => {
   element.properties.target = '_blank';
-  element.properties.rel = ['noopener'];
-  element.properties.class = 'external-link';
+  element.properties.rel = [...new Set([...(Array.isArray(element.properties.rel) ? element.properties.rel.map(String) : []), 'noopener', 'noreferrer'])];
+  const classNames = Array.isArray(element.properties.className) ? element.properties.className.map(String) : [];
+  element.properties.className = [...new Set([...classNames, 'external-link'])];
 };
